@@ -1,9 +1,10 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'
-import Home from './pages/Home'
+import Home from './pages/Home';
+import CueSheet from './pages/CueSheet';
+import NewHeader from './pages/NewHeader';
 
 const App = ()=> (
   <Router>
@@ -11,6 +12,8 @@ const App = ()=> (
       {/* <Nav /> We'll import the navbar here*/}
       <Switch>
         <Route exact path="/" component={Home} />
+        <Route exact path="/cuesheet" component={CueSheet}/>
+        <Route exact path="/newheader" component={NewHeader}/>
       </Switch>
     </div>
   </Router>
