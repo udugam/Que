@@ -50,6 +50,12 @@ class CueSheet extends Component{
                             name="search"
                             placeholder="search"
                         />
+                        <Input
+                            value={this.state.search}
+                            onChange={this.handleInputChange}
+                            name="search"
+                            placeholder="search"
+                        />
                         <FormBtn
                             onClick={this.handleFormSubmit}    
                         >
