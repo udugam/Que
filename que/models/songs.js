@@ -4,7 +4,7 @@ module.exports = function(sequelize, DataTypes) {
         songId: DataTypes.INTEGER,
         songTitle: DataTypes.STRING,
         artists: DataTypes.STRING,
-        shareholdersId: DataTypes.INTEGER,
+        shareholdersId: DataTypes.STRING,
         fingerprintId: DataTypes.INTEGER
     })
     return songs;
