@@ -1,7 +1,7 @@
 const router = require('express').Router()
-const testRoute = require('./test.js')
+const cueRoutes = require('./cues')
 
 //Insert api model specific api routes here
-router.use('/test', testRoute)
+router.use('/cues', cueRoutes)
 
 module.exports = router
