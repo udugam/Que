@@ -7,4 +7,7 @@ const songController = require('../../controllers/songsControllers')
 router.route('/cues')
     .get(cueController.example)
 
+router.route('/cueSheet')
+    .post(cueSheetController.insert)
+
 module.exports = router
