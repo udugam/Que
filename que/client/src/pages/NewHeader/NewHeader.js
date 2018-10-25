@@ -2,32 +2,38 @@ import React, {Component} from 'react';
 import CueSheet from '../CueSheet';
 import {BrowserRouter as Router, Route} from 'react-router-dom';
 import {FormBtn, Input} from '../../components/Form'
+import API from '../../utils/API';
 
 
 class NewHeader extends Component {
     state = {
-        name: ""
+        productionId: 0,
+        productionTitle: "",
+        type: "",
+        productionDuration: 0,
+        musicDuration: 0
     }
 
     handleInputChange = event => {
         const { name, value } = event.target;
         this.setState({
-          [name]: value
+          [name]: value.trim()
         });
     };
 
     handleFormSubmit = event => {
         event.preventDefault();
-        console.log(this.state)
-        // if (this.state.title && this.state.author) {
-        //     API.saveBook({
-        //     title: this.state.title,
-        //     author: this.state.author,
-        //     synopsis: this.state.synopsis
-        //     })
-        //     .then(res => this.loadBooks())
-        //     .catch(err => console.log(err));
-        // }
+
+        if(!Object.values(this.state).includes("")){
+            console.log(this.state)
+
+            API.saveCueSheet(this.state)
+                .then(function(result){
+                    console.log(result)
+                })
+        }else{
+
+        }
     };
 
     render() {
@@ -37,14 +43,30 @@ class NewHeader extends Component {
                     <h2 className="text-center">Header Form</h2>
                     <form>
                         <Input
-                            value={this.state.name}
                             onChange={this.handleInputChange}
-                            name="name"
-                            placeholder="Name"
+                            name="productionId"
+                            placeholder="ProductionID"
                         />
-                        <Input/>
-                        <Input/>
-                        <Input/>
+                        <Input
+                            onChange={this.handleInputChange}
+                            name="productionTitle"
+                            placeholder="Production Title"
+                        />
+                        <Input
+                            onChange={this.handleInputChange}
+                            name="type"
+                            placeholder="Type"
+                        />
+                        <Input
+                            onChange={this.handleInputChange}
+                            name="productionDuration"
+                            placeholder="Production Duration"
+                        />
+                        <Input
+                            onChange={this.handleInputChange}
+                            name="musicDuration"
+                            placeholder="Music Duration"
+                        />
                         <FormBtn
                             onClick={this.handleFormSubmit}    
                         >
