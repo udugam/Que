@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import "./CueSheet.css"
 import NewHeader from "../NewHeader"
+import API from "../../utils/API"
 import {BrowserRouter as Router, Route} from 'react-router-dom'
 import {FormBtn, Input} from '../../components/Form'
 
@@ -20,7 +21,8 @@ class CueSheet extends Component{
 
     handleFormSubmit = event => {
         event.preventDefault();
-        console.log(this.state)
+        API.getsomething();
+        // console.log(this.state)
         // if (this.state.title && this.state.author) {
         //     API.saveBook({
         //     title: this.state.title,
