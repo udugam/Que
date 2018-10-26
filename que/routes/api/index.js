@@ -1,7 +1,7 @@
 const router = require('express').Router()
-const testRoute = require('./test.js')
+const acrRoutes = require('./acrcloud.js')
 
 //Insert api model specific api routes here
-router.use('/test', testRoute)
+router.use('/acrcloud', acrRoutes)
 
 module.exports = router
