@@ -3,5 +3,9 @@ const acrRoutes = require('./acrcloud.js')
 
 //Insert api model specific api routes here
 router.use('/acrcloud', acrRoutes)
+const cueRoutes = require('./cues')
+
+//Insert api model specific api routes here
+router.use('/cues', cueRoutes)
 
 module.exports = router
