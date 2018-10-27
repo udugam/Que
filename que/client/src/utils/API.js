@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export default {
-    getsomething: function(){
+    getCues: function(){
         return axios.get("/api/cues/cues")
         // return console.log("hello")
     },

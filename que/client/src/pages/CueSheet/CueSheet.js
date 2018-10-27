@@ -4,12 +4,28 @@ import NewHeader from "../NewHeader"
 import API from "../../utils/API"
 import {BrowserRouter as Router, Route} from 'react-router-dom'
 import {FormBtn, Input} from '../../components/Form'
+import {Row, Col} from "../../components/Table"
 
 
 class CueSheet extends Component{
     
     state = {
-        search: ''
+        search: '',
+        cueSheet: []
+    }
+
+    componentDidMount(){
+        this.loadCueSheet();
+    }
+
+    loadCueSheet = () => {
+        API.getCues()
+            .then(result => {
+                console.log(result)
+                this.setState({cueSheet: result.data})
+                console.log(this.state.cueSheet)
+            })
+            .catch(err => console.log(err));
     }
 
     handleInputChange = event => {
@@ -21,7 +37,11 @@ class CueSheet extends Component{
 
     handleFormSubmit = event => {
         event.preventDefault();
-        API.getsomething();
+        console.log("hello")
+        // API.getCues()
+        //     .then(function(result){
+        //         console.log(result)
+        //     })
         // console.log(this.state)
         // if (this.state.title && this.state.author) {
         //     API.saveBook({
@@ -69,15 +89,29 @@ class CueSheet extends Component{
                     <table className="table">
                         <thead className="thead-dark">
                             <tr>
-                                <th scope="col">Name</th>
-                                <th scope="col"></th>
-                                <th scope="col"></th>
-                                <th scope="col"></th>
-                                <th scope="col"></th>
+                                <th scope="col">Production Id</th>
+                                <th scope="col">Production Title</th>
+                                <th scope="col">Type</th>
+                                <th scope="col">Production Duration</th>
+                                <th scope="col">Music Duration</th>
                             </tr>
                         </thead>
                         <tbody className="cueInfo">
                             {/* Cue info */}
+                            {this.state.cueSheet.map(cues => {
+                                return(
+                                    <Row 
+                                        key={cues.id}
+                                        id={cues.id}
+                                        productionId={cues.productionId}
+                                        productionTitle={cues.productionTitle}
+                                        type={cues.type}
+                                        productionDuration={cues.productionDuration}
+                                        musicDuration={cues.musicDuration}
+                                        goToCue={this.handleFormSubmit}
+                                    />
+                                )
+                            })}
                         </tbody>
                     </table>
                 </div>

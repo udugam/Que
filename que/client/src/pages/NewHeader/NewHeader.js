@@ -24,6 +24,8 @@ class NewHeader extends Component {
     handleFormSubmit = event => {
         event.preventDefault();
 
+        console.log(document.getElementsByClassName('form-control')[0].value)
+        // console.log(document.getElementById('productionId').value)
         if(!Object.values(this.state).includes("")){
             console.log(this.state)
 
@@ -32,7 +34,7 @@ class NewHeader extends Component {
                     console.log(result)
                 })
         }else{
-
+             
         }
     };
 
