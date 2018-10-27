@@ -1,0 +1,62 @@
+{
+    "cueSheets":[
+        {
+        "productionId": "1234",
+        "productionTitle": "Avatar",
+        "type": "Film",
+        "productionDuration": 180000,
+        "musicDuration": 560
+    },
+    {
+        "productionId": "1235",
+        "productionTitle": "Black Panther",
+        "type": "Film",
+        "productionDuration": 170000,
+        "musicDuration": 540
+    },
+    {
+        "productionId": "1236",
+        "productionTitle": "Isabelle",
+        "type": "Film",
+        "productionDuration": 145000,
+        "musicDuration": 320
+    },
+    {
+        "productionId": "1236",
+        "productionTitle": "Christmas Time",
+        "type": "Film",
+        "productionDuration": 170000,
+        "musicDuration": 540
+    }],
+    "shareholders": [
+        {
+            "shareholderId":2345,
+            "shareholderName": "John Doe",
+            "affiliation": "SOCAN",
+            "songs": [],
+            "ipiNumber": "5678945-ki"
+        }
+    ],
+    "cues":[
+        {
+            "cueId":7890,
+            "cueTitle": "blah",
+            "songId": 8888,
+            "duration": 69879,
+            "usage": "Background"
+        }
+    ],
+    "songs": [
+        {
+            "songId": 19870,
+            "songTitle": "hot line",
+            "artists": [
+                "Drake","Mike P"
+            ],
+            "shareholderId":[
+                3030,2020,3948
+            ],
+            "fingerprintId": 7676868
+        }
+    ]
+}

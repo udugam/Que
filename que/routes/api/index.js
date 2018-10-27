@@ -8,4 +8,6 @@ const cueRoutes = require('./cues')
 //Insert api model specific api routes here
 router.use('/cues', cueRoutes)
 
+router.use('/cuesheet', cueRoutes)
+
 module.exports = router
