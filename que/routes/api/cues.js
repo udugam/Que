@@ -5,7 +5,7 @@ const shareholderController = require('../../controllers/shareholdersController'
 const songController = require('../../controllers/songsControllers')
 
 router.route('/cues')
-    .get(cueController.example)
+    .get(cueSheetController.find)
 
 router.route('/cueSheet')
     .post(cueSheetController.insert)
