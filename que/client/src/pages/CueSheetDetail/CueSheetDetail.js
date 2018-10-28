@@ -12,6 +12,11 @@ class NewCue extends Component {
         cueSheet: {},
         cues: []
     }
+
+    handleFileUpload() {
+        API.sendFile()
+    }
+
     componentDidMount() {
         // console.log(this.props.match.params.id)
         API.getCueSheet(this.props.match.params.id)
@@ -58,8 +63,14 @@ class NewCue extends Component {
 							<input type="file" name="file" />
                         </div> */}
                         <div>
-                            <Btn>Upload</Btn>
-                            <input type="file" name="file" />
+                            <form ref='uploadForm' 
+                                id='uploadForm' 
+                                action='/api/upload' 
+                                method='post' 
+                                encType="multipart/form-data">
+                                    <input type="file" name="audioFile" />
+                                    <input type='submit' value='Upload!' />
+                            </form>   
                         </div>
 
 
