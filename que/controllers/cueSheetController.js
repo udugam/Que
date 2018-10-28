@@ -1,7 +1,17 @@
 const db = require("../models");
 
 module.exports = {
+<<<<<<< HEAD
+    find: function(req, res){
+        db.cueSheet.findAll({})
+            .then(function(result){
+                res.json(result)
+            })
+    },
+    insert: function(req, res){
+=======
     insert: function (req, res) {
+>>>>>>> eedeb6b71327efea9cbde2f6e012c692c4c93358
         db.cueSheet.create(req.body)
             .then(function (results) {
                 res.json(results)
