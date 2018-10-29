@@ -14,9 +14,11 @@ router.route('/recognize')
 
         PythonShell.run(`/Users/udugam/Documents/UofT-CodingBootcamp-Homework/NewQueFolder/Que/que/acrcloud_scan_files_python/acrcloud_scan_files_python.py`, options, function(err) {
             if (err) throw err
+            
             console.log('finished')
         })
     })
+
 
 module.exports = router
 
