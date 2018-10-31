@@ -3,7 +3,7 @@ import axios from "axios";
 
 // axios can only get and post? it can't send a delete? It was sending an empty object
 export default {
-    getsomething: function(){
+    getCues: function(){
         return axios.get("/api/cues/cues")
         // return console.log("hello")
     },

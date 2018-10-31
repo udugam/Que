@@ -3,8 +3,8 @@ const cueController = require('../../controllers/cueController')
 const cueSheetController = require("../../controllers/cueSheetController");
 const songController = require('../../controllers/songsControllers')
 
-// router.route('/cues')
-//     .get(cueController.example)
+router.route('/cues')
+    .get(cueSheetController.find)
 
 router.route('/cueSheet')
     .post(cueSheetController.insert)
