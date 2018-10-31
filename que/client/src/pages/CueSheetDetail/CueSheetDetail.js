@@ -3,29 +3,149 @@ import React, { Component } from 'react';
 import { Container, Row, TableRow } from "../../components/Grid";
 import CueCard from "../../components/CueCards"
 import ProductionCard from "../../components/ProductionCard"
-import API from "../../components/API/API"
+import API from "../../utils/API"
 import { Btn } from "../../components/Icons"
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap'
+import ShareholderForm from "../../components/ShareholderAdd"
 
 class NewCue extends Component {
-
-    state = {
-        cueSheet: {},
-        cues: []
+    constructor(props) {
+        super(props);
+        this.state = {
+            cueSheet: {},
+            cues: [],
+            dropdownOpen: false,
+            modal: false,
+            confirmModal: false,
+            shareholderName: "",
+            ipiNumber: "",
+            role: "",
+            sharePercent: "",
+            affiliation: "",
+            cueId: "",
+            songId: "",
+            shareholderId: ""
+        };
     }
-    componentDidMount() {
+
+    modalToggle = () => {
+        this.setState({
+            modal: !this.state.modal
+        });
+    };
+    confirmModalToggle = () => {
+        this.setState({
+            confirmModal: !this.state.confirmModal
+        });
+    };
+
+    // function to get the cue sheet data
+    getCueSheet = () => {
         // console.log(this.props.match.params.id)
         API.getCueSheet(this.props.match.params.id)
             .then(res => {
                 console.log(res.data)
-                this.setState({ cueSheet: res.data.cueSheet, cues: res.data.cues });
-                // console.log(`${res.data.cues}`)
+                this.setState({
+                    cueSheet: res.data.cueSheet,
+                    cues: res.data.cues,
+                    shareholderName: "",
+                    ipiNumber: "",
+                    role: "",
+                    sharePercent: "",
+                    affiliation: "",
+                    cueId: ""
+                });
+
             })
-            .then(result =>{
+            .then(result => {
                 console.log(`result:
-                ${this.state.cues}`)
+               ${this.state.cues}`)
             })
-    
+    }
+    componentDidMount() {
+        this.getCueSheet()
+
     };
+
+    deleteCue = id => {
+        alert(id)
+    }
+
+    addShareholder = (cueId, songId) => {
+        // console.log(cueId)
+        // console.log(this.state.cueId)
+        this.modalToggle()
+        // modal
+        this.setState({
+            cueId: cueId,
+            songId: songId
+        })
+
+
+    };
+
+    deleteShareholder = (shareholderId, songId) => {
+        this.confirmModalToggle();
+        console.log(shareholderId)
+        console.log(songId)
+        this.setState({
+            shareholderId:shareholderId,
+            songId: songId
+        })
+    }
+
+    handleInputChange = event => {
+        const { name, value } = event.target;
+        // console.log("here: ", event.target.value)
+
+        this.setState({
+            [name]: value
+        });
+    };
+
+
+// event handler for when the submit button is selected for 
+    handleAddShareholder = event => {
+        event.preventDefault();
+        // alert(`Shareholder name: ${this.state.shareholderName}
+        // IPI Number: ${this.state.ipiNumber}
+        // Role: ${this.state.role}
+        // share: ${this.state.sharePercent}
+        // affiliation: ${this.state.affiliation}
+        // cue Id: ${this.state.cueId}`);
+        // songId
+        // this.setState({ username: "", password: "" });
+        API.addShareholder({
+            shareholderName: this.state.shareholderName,
+            affiliation: this.state.affiliation,
+            ipiNumber: this.state.ipiNumber,
+            role: this.state.role,
+            share: this.state.sharePercent,
+            cueId: this.state.cueId,
+            songId: this.state.songId
+
+        }).then(res => {
+            this.getCueSheet()
+            this.modalToggle()
+        })
+    };
+
+    handleShareholderDelete =(event)=>{
+        event.preventDefault();
+        console.log({
+            shareholderId:this.state.shareholderId,
+            songId: this.state.songId
+        })
+
+        API.deleteShareholder({
+            shareholderId:this.state.shareholderId,
+            songId: this.state.songId
+        }).then(res =>{
+            console.log(res)
+        })
+    }
+
+
 
     render() {
         return (
@@ -52,18 +172,13 @@ class NewCue extends Component {
                 {/* button */}
                     <br></br>
                     <Row>
-                        {/* <div className="file btn btn-lg btn-primary">
-                            Upload
-
-							<input type="file" name="file" />
-                        </div> */}
                         <div>
                             <Btn>Upload</Btn>
                             <input type="file" name="file" />
                         </div>
 
+                        <Button color="primary" data-id={this.props.match.params.id}>  Add new cue</Button>
 
-                        <Btn data-id={this.props.match.params.id}>Add new</Btn>
                     </Row>
 
 
@@ -76,7 +191,13 @@ class NewCue extends Component {
                         key={cues.id}
                         title={cues.song.songTitle}
                         duration={cues.duration}
-                        usage={cues.usage}>
+                        usage={cues.usage}
+                        artists={cues.song.artists}
+                        deleteId={cues.id}
+                        deleteCue={this.deleteCue}
+                    >
+
+                        {/* shareholder information  */}
                         <table className="table">
                             <thead className="thead-dark">
                                 <tr>
@@ -84,13 +205,41 @@ class NewCue extends Component {
                                     <th scope="col">Role</th>
                                     <th scope="col">Share %</th>
                                     <th scope="col">Affiliation</th>
+                                    <th scope="col">Action</th>
 
                                 </tr>
                             </thead>
                             <tbody className="cueInfo">
-                                {/* {this.cues.song.shareholders.map(shareholders =>(
-                                  <TableRow></TableRow>
-                                ))} */}
+                                {cues.song.shareholders.map(shareholders => (
+                                    <TableRow key={shareholders.id}>
+
+                                        <td> {shareholders.shareholderName}</td>
+                                        <td> {shareholders.shareholderSongs.role}</td>
+                                        <td> {shareholders.shareholderSongs.shares}</td>
+                                        <td> {shareholders.affiliation} </td>
+                                        <td>
+
+                                            <section>
+                                                <Button color="success" onClick={() => { this.deleteShareholder(shareholders.id, cues.songId) }} >delete</Button>
+                                                <Modal isOpen={this.state.confirmModal} toggle={this.confirmModalToggle} className={this.props.className}>
+                                                    <ModalHeader toggle={this.confirmModalToggle}>Delete Shareholder</ModalHeader>
+                                                    <ModalBody>
+                                                        Are you sure you want to remove this shareholder?
+                                                         </ModalBody>
+                                                    <ModalFooter>
+                                                        <Button color="primary" onClick={this.handleShareholderDelete}>Yes</Button>{' '}
+                                                        <Button color="secondary" onClick={this.confirmModalToggle}>Cancel</Button>
+                                                    </ModalFooter>
+                                                </Modal>
+
+                                            </section>
+
+                                            {/* <Button> edit</Button> */}
+                                        </td>
+
+
+                                    </TableRow>
+                                ))}
                                 {/* <tr>
                                     <td >Test Name</td>
                                     <td > CA - Publisher </td>
@@ -106,6 +255,30 @@ class NewCue extends Component {
                             </tbody>
 
                         </table>
+
+                        {/* modal */}
+                        <section>
+                            <Button onClick={() => { this.addShareholder(cues.id, cues.songId) }}> Add a shareholder</Button>
+                            {/* <Button color="danger" onClick={this.toggle}>{this.props.buttonLabel}</Button> */}
+                            <Modal isOpen={this.state.modal} toggle={this.modalToggle} className={this.props.className}>
+                                <ModalHeader toggle={this.modalToggle}>Add Shareholder</ModalHeader>
+                                <ModalBody>
+                                    <ShareholderForm
+
+                                        // shareholderValue={this.state.shareholderName}
+                                        // roleValue  = {this.state.role}
+                                        // ipiValue={this.state.ipiNumber}
+                                        // affiliationValue = {this.state.affiliation}
+                                        // shareValue = {this.state.sharePercent}
+                                        handleChange={this.handleInputChange}
+                                    ></ShareholderForm>
+                                </ModalBody>
+                                <ModalFooter>
+                                    <Button color="primary" onClick={this.handleAddShareholder}>Submit</Button>{' '}
+                                    <Button color="secondary" onClick={this.modalToggle}>Cancel</Button>
+                                </ModalFooter>
+                            </Modal>
+                        </section>
 
                     </CueCard>
                 ))}

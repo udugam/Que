@@ -1,1 +1,1 @@
-export {default} from './CueCard.js'
+export {default} from "./CueCard"
