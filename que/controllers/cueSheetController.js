@@ -4,7 +4,7 @@ module.exports = {
     find: function(req, res){
         db.cueSheet.findAll({})
             .then(function(result){
-                res.json(result)
+                res.json(result.data.id)
             })
     },
     insert: function(req, res){

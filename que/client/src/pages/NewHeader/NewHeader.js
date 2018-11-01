@@ -1,17 +1,20 @@
 import React, {Component} from 'react';
 import CueSheet from '../CueSheet';
-import {BrowserRouter as Router, Route} from 'react-router-dom';
-import {FormBtn, Input} from '../../components/Form'
+import CueSheetDetail from '../CueSheetDetail';
+import {BrowserRouter as Router, Route, Redirect} from 'react-router-dom';
+import {FormBtn, Input, Select} from '../../components/Form'
 import API from '../../utils/API';
 
 
 class NewHeader extends Component {
     state = {
-        productionId: 0,
+        id: 0,
         productionTitle: "",
         type: "",
         productionDuration: 0,
-        musicDuration: 0
+        musicDuration: 0,
+        nextPage: false,
+        missingInfo: false
     }
 
     handleInputChange = event => {
@@ -23,41 +26,36 @@ class NewHeader extends Component {
 
     handleFormSubmit = event => {
         event.preventDefault();
-
-        console.log(document.getElementsByClassName('form-control')[0].value)
-        // console.log(document.getElementById('productionId').value)
         if(!Object.values(this.state).includes("")){
-            console.log(this.state)
-
             API.saveCueSheet(this.state)
-                .then(function(result){
-                    console.log(result)
+                .then(result => {
+                    this.setState({id: result.data.id})
+                    this.setState({nextPage: true})
                 })
         }else{
-             
+            this.setState({missingInfo: true})
         }
     };
 
     render() {
+        if(this.state.nextPage === true){
+            return <Redirect to={`/cuesheet/${this.state.id}`}/>
+        }
         return(
+
             <Router>
                 <div className="container">
                     <h2 className="text-center">Header Form</h2>
                     <form>
                         <Input
                             onChange={this.handleInputChange}
-                            name="productionId"
-                            placeholder="ProductionID"
-                        />
-                        <Input
-                            onChange={this.handleInputChange}
                             name="productionTitle"
                             placeholder="Production Title"
                         />
-                        <Input
+                        <Select
                             onChange={this.handleInputChange}
                             name="type"
-                            placeholder="Type"
+                            placeholder="Production Duration"
                         />
                         <Input
                             onChange={this.handleInputChange}
@@ -80,7 +78,13 @@ class NewHeader extends Component {
                             </a>
                         </button>
                         <Route exact path="/cueSheet" component={CueSheet}/>
+                        <Route exact path="/cueSheet/" component={CueSheetDetail}/>
                     </form>
+                    {this.state.missingInfo ? (
+                        <h4>Missing Infomation</h4>
+                    ) : (
+                        <p></p>
+                    )}
                 </div>
             </Router>
         )
