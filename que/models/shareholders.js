@@ -8,13 +8,13 @@ module.exports = function(sequelize, DataTypes) {
         ipiNumber: DataTypes.STRING
     });
 
-    shareholders.associate = function(models) {
+    //shareholders.associate = function(models) {
     //  associating shareholders to songs
 
-        shareholders.belongsToMany(models.songs,{
-            through: "ShareholderSongs"
-        })
-      };
+      //  shareholders.belongsToMany(models.songs,{
+      //      through: "ShareholderSongs"
+      //  })
+      //};
     return shareholders;
   };
   
