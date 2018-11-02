@@ -39,7 +39,6 @@ export default withAuth(
             ) : (
                 <div>
                     <h3>This is the home page!</h3>
-                    <AcrCloud />
                 </div>
             );
 
