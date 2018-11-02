@@ -4,7 +4,7 @@ import NewHeader from "../NewHeader"
 import API from "../../utils/API"
 import {BrowserRouter as Router, Route} from 'react-router-dom'
 import {FormBtn, Input} from '../../components/Form'
-import {Row, Col} from "../../components/Table"
+import {Row} from "../../components/Table"
 
 
 class CueSheet extends Component{
@@ -102,8 +102,7 @@ class CueSheet extends Component{
                                 return(
                                     <Row 
                                         key={cues.id}
-                                        id={cues.id}
-                                        productionId={cues.productionId}
+                                        productionId={cues.id}
                                         productionTitle={cues.productionTitle}
                                         type={cues.type}
                                         productionDuration={cues.productionDuration}
