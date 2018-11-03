@@ -36,11 +36,14 @@ fs.createReadStream('../../result-uploadedFile.mp3.csv')
                 artists: result.artists,
                 fingerprintId: result.acrid
             }
-            let cue = {
-                duration: result.duration
-            }
-            songController.insert(song)
-            cueController.insert(cue)
+            songController.insert(song, function() {
+                
+                let cue = {
+                    duration: result.duration,
+                    songId: 3
+                }
+                cueController.insert(cue)
+            })
         })
     })
   
