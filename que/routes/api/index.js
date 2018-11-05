@@ -1,14 +1,17 @@
 const router = require('express').Router()
 const acrRoutes = require('./acrcloud.js')
-const shareholderRoutes = require('./shareholder')
 const cueRoutes = require('./cues')
-//Insert api model specific api routes here
+const uploadRoutes = require('./upload.js')
+const shareholderRoutes = require('./shareholder')
+
+//acr routes
 router.use('/acrcloud', acrRoutes)
 
+//upload route
+router.use(uploadRoutes)
 
-//Insert api model specific api routes here
+//cue routes
 router.use('/cues', cueRoutes)
-
 router.use('/cuesheet', cueRoutes)
 
 router.use('/shareholder', shareholderRoutes)

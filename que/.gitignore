@@ -20,5 +20,4 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-#ACR-Cloud
-/acrcloud_scan_files_python/config.json 
+
