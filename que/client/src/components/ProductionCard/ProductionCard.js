@@ -1,6 +1,5 @@
 import React from "react";
 import { Col, Row, Container } from "../../components/Grid";
-import {Btn} from "../../components/Icons"
 
 const ProductionCard = props => (
     <div>

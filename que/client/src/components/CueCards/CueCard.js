@@ -1,43 +1,65 @@
-import React from "react";
+import React, { Component } from "react";
 import { Col, Row, Container } from "../../components/Grid";
-import { Btn } from "../../components/Icons"
-
-const CueCard = props => (
-    <div>
-
-        <Container>
-            <Row>
+import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap'
 
 
-            {/* Sequence #, Title, Usage, Cue duration 
+
+class CueCard extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            dropdownOpen: false
+        };
+    };
+    toggle =()=>{
+        this.setState(prevState => ({
+            dropdownOpen: !prevState.dropdownOpen
+          }));
+    }
+    render() {
+        return (
+            <div>
+
+                <Container>
+                    <Row>
+
+                        {/* Sequence #, Title, Usage, Cue duration 
             shareholder name, share%, Affiliation*/}
-                <Col size="md-12" >
-                    <div className="card" style={{marginTop:30}}>
-                        <div className="card-header" >
-                            <strong>{props.title} </strong>
-                            <Btn> Delete</Btn>
-                        </div>
-                        <div class="card-body">
-                            Duration: {props.duration}
-                            <br></br>
-                            Usage: {props.usage}
+                        <Col size="md-12" >
+                            <div className="card" style={{ marginTop: 30 }}>
+                                <div className="card-header" >
+                                    <strong>{this.props.title} </strong>
+                                    <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
+                                        <DropdownToggle caret>
+                                            Modify
+                                         </DropdownToggle>
+                                        <DropdownMenu>
+                                            <DropdownItem >Edit</DropdownItem>
+                                            <DropdownItem divider />
+                                            <DropdownItem onClick={() => { this.props.deleteCue(this.props.deleteId) }}>Delete</DropdownItem>
+                                        </DropdownMenu>
+                                    </Dropdown>
 
-                        </div>
-                    {props.children}
-                        {/* <div className="card-body">
-                            data
+                                </div>
+                                <div className="card-body">
+                                    Artist(s): {this.props.artists} <br></br>
+                                    Duration: {this.props.duration}
+                                    <br></br>
+                                    Usage: {this.props.usage}
 
-                        </div> */}
+                                </div>
+                                {this.props.children}
 
+                            </div>
 
-                    </div>
+                        </Col>
+                    </Row>
 
-                </Col>
-            </Row>
+                </Container>
 
-        </Container>
-
-    </div>
-)
+            </div>
+        )
+    }
+}
 
 export default CueCard
