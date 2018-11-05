@@ -28,6 +28,10 @@ class NewCue extends Component {
         };
     }
 
+    handleFileUpload() {
+        API.sendFile()
+    }
+
     modalToggle = () => {
         this.setState({
             modal: !this.state.modal
@@ -62,9 +66,9 @@ class NewCue extends Component {
                ${this.state.cues}`)
             })
     }
+
     componentDidMount() {
         this.getCueSheet()
-
     };
 
     deleteCue = id => {
@@ -173,8 +177,14 @@ class NewCue extends Component {
                     <br></br>
                     <Row>
                         <div>
-                            <Btn>Upload</Btn>
-                            <input type="file" name="file" />
+                            <form ref='uploadForm' 
+                                id='uploadForm' 
+                                action='/api/upload' 
+                                method='post' 
+                                encType="multipart/form-data">
+                                    <input type="file" name="audioFile" />
+                                    <input type='submit' value='Upload!' />
+                            </form>   
                         </div>
 
                         <Button color="primary" data-id={this.props.match.params.id}>  Add new cue</Button>

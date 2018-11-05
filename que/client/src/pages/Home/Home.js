@@ -30,16 +30,12 @@ export default withAuth(
             const homeContent = this.state.authenticated ? (
                 <div>
                     <WelcomeUser />
-                    <h3>This is the home page!</h3>
                     <p>
                         <Link to="/cuesheet"><button>Create new Cuesheet!</button></Link>
                     </p>
-                    <AcrCloud />
                 </div>
             ) : (
                 <div>
-                    <h3>This is the home page!</h3>
-                    <AcrCloud />
                 </div>
             );
 
