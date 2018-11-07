@@ -1,5 +1,6 @@
 const router = require('express').Router()
 let {PythonShell} = require('python-shell')
+const processCSV = require('./parse.js')
 
 router.route('/upload')
     .post(function(req,res) {
@@ -20,7 +21,8 @@ router.route('/upload')
     
             PythonShell.run(`acrcloud_scan_files_python.py`, options, function(err, results) {
                 if (err) throw err
-                console.log('finished')
+                console.log('acr finished scanning')
+                processCSV('/Users/udugam/Documents/UofT-CodingBootcamp-Homework/NewQueFolder/Que/que/result-uploadedFile.mp3.csv')
                 res.json(true);
             })
             

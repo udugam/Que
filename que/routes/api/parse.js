@@ -6,46 +6,46 @@ const songController = require('../../controllers/songsControllers')
 const cueController = require('../../controllers/cueController')
 
 
-
 //Read the csv file created by the ACRCloud Python SDK
-fs.createReadStream('../../result-uploadedFile.mp3.csv')
-    .pipe(parse({
-        columns:true, //uses first line of csv as object key names for remaining lines of the file
-        trim:true
-    }))
-    .on('data', function(data) {
-        try {
-            //push each parsed csv line to an array as an object
-            rawDataArray.push(data)
-        }
-        catch(err) {
-            //error handler
-        }
-    })
-    .on('end', function() {
-        //remove extra data from each object in the array
-        const editedResults = removeExtraData(rawDataArray)
-
-        //filter array to only contain single songs with their duration
-        const summary = filterEditedResults(editedResults)
-        
-        //Loop through summary array and add each song to the database
-        summary.forEach(result => {
-            let song = {
-                songTitle: result.songName,
-                artists: result.artists,
-                fingerprintId: result.acrid
+const processCSV = function(filePath) {
+    fs.createReadStream(filePath)
+        .pipe(parse({
+            columns:true, //uses first line of csv as object key names for remaining lines of the file
+            trim:true
+        }))
+        .on('data', function(data) {
+            try {
+                //push each parsed csv line to an array as an object
+                rawDataArray.push(data)
             }
-            songController.insert(song, function() {
-                
-                let cue = {
-                    duration: result.duration,
-                    songId: 3
+            catch(err) {
+                //error handler
+            }
+        })
+        .on('end', function() {
+            //remove extra data from each object in the array
+            const editedResults = removeExtraData(rawDataArray)
+
+            //filter array to only contain single songs with their duration
+            const summary = filterEditedResults(editedResults)
+            
+            //Loop through summary array and add each song to the database
+            summary.forEach(result => {
+                let song = {
+                    songTitle: result.songName,
+                    artists: result.artists,
+                    fingerprintId: result.acrid
                 }
-                cueController.insert(cue)
+                songController.insert(song, function() {
+                    let cue = {
+                        duration: result.duration,
+                        songId: 3
+                    }
+                    cueController.insert(cue)
+                })
             })
         })
-    })
+}
   
 
 const removeExtraData = (rawDataArray) => {
@@ -90,4 +90,5 @@ const filterEditedResults = (editedResultsArray) => {
     return summary
 }
 
+module.exports = processCSV
 
