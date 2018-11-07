@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { withAuth } from '@okta/okta-react';
-import AcrCloud from '../../components/ACRCloud/AcrCloud.js'
 import WelcomeUser from '../../components/WelcomeUser/WelcomeUser.js'
 
 export default withAuth(

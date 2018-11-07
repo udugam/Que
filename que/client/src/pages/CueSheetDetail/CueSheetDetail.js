@@ -7,6 +7,7 @@ import API from "../../utils/API"
 import { Btn } from "../../components/Icons"
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap'
 import ShareholderForm from "../../components/ShareholderAdd"
+import FileUpload from '../../components/FileUpload'
 
 class NewCue extends Component {
     constructor(props) {
@@ -26,10 +27,6 @@ class NewCue extends Component {
             songId: "",
             shareholderId: ""
         };
-    }
-
-    handleFileUpload() {
-        API.sendFile()
     }
 
     modalToggle = () => {
@@ -170,32 +167,18 @@ class NewCue extends Component {
                     productionDuration={this.state.cueSheet.productionDuration}
                     totalMusicalDuration={this.state.cueSheet.musicDuration} />
 
+                <hr></hr>
 
                 <Container>
-                    CUE DETAILS
-                {/* button */}
-                    <br></br>
                     <Row>
-                        <div>
-                            <form ref='uploadForm' 
-                                id='uploadForm' 
-                                action='/api/upload' 
-                                method='post' 
-                                encType="multipart/form-data">
-                                    <input type="file" name="audioFile" />
-                                    <input type='submit' value='Upload!' />
-                            </form>   
-                        </div>
-
-                        <Button color="primary" data-id={this.props.match.params.id}>  Add new cue</Button>
-
+                        <FileUpload cueSheetId={this.state.cueSheet.id}/>
                     </Row>
-
-
                 </Container>
 
                 <hr></hr>
-
+                <Container>
+                    <Button color="primary" data-id={this.props.match.params.id}>  Add new cue</Button>
+                </Container>
                 {this.state.cues.map(cues => (
                     <CueCard
                         key={cues.id}
