@@ -15,9 +15,20 @@ export default {
         
       },
     addShareholder: function(shareholder){
-        return axios.post("/api/shareholder/add", shareholder)
+        return axios.post("/api/shareholder/add", shareholder).then((res)=>{
+            console.log(res)
+        })
     },
     deleteShareholder: function(shareholderIdAndSongId){
         return axios.post("/api/shareholder/delete", shareholderIdAndSongId)
+    },
+    addCue: function(cueDetails){
+        return axios.post("/api/cues/new", cueDetails)
+    },
+    deleteCue: function(cueId){
+        return axios.post("/api/cues/delete", cueId)
+    },
+    editCue: function(cueData){
+        return axios.post("/api/cues/edit", cueData)
     }
 }

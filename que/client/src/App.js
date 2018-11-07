@@ -37,7 +37,7 @@ const App = ()=> (
                         <Login baseUrl="https://dev-287479.oktapreview.com" />
                     )}
                 />
-                <Route path="/implicit/callback" component={ImplicitCallback} />
+                <Route path="/implicit/callback" component={ImplicitCallback} /> 
             </Security>
 
 
