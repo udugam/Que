@@ -421,7 +421,7 @@ class NewCue extends Component {
                                 </tr>
                             </thead>
                             <tbody className="cueInfo">
-                                {cues.song.shareholders.map(shareholders => (
+                                {cues.song.shareholders && cues.song.shareholders.map(shareholders => (
                                     <TableRow key={shareholders.id}>
 
                                         <td> {shareholders.shareholderName}</td>
