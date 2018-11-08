@@ -9,9 +9,14 @@ router.route('/cues')
 router.route('/cueSheet')
     .post(cueSheetController.insert)
 
+router.route('/new')
+.post(cueController.insert)
 
-// /api/cuesheet/id
-router.route('/:id')
-    .get(cueSheetController.findById)
+
+router.route('/delete')
+.post(cueController.delete)
+
+router.route('/edit')
+.post(cueController.edit)
 
 module.exports = router

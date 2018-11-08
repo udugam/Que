@@ -11,10 +11,10 @@ class CueCard extends Component {
             dropdownOpen: false
         };
     };
-    toggle =()=>{
+    toggle = () => {
         this.setState(prevState => ({
             dropdownOpen: !prevState.dropdownOpen
-          }));
+        }));
     }
     render() {
         return (
@@ -34,14 +34,14 @@ class CueCard extends Component {
                                             Modify
                                          </DropdownToggle>
                                         <DropdownMenu>
-                                            <DropdownItem >Edit</DropdownItem>
+                                            <DropdownItem onClick={() => { this.props.editCue(this.props) }}>Edit</DropdownItem>
                                             <DropdownItem divider />
-                                            <DropdownItem onClick={() => { this.props.deleteCue(this.props.deleteId) }}>Delete</DropdownItem>
+                                            <DropdownItem onClick={() => { this.props.deleteCue(this.props.cueId) }}>Delete</DropdownItem>
                                         </DropdownMenu>
                                     </Dropdown>
 
                                 </div>
-                                <div className="card-body">
+                                <div data-songid={this.props.songId} className="card-body">
                                     Artist(s): {this.props.artists} <br></br>
                                     Duration: {this.props.duration}
                                     <br></br>
