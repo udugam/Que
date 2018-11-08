@@ -9,7 +9,7 @@ module.exports = function(sequelize, DataTypes) {
     });
 
     shareholders.associate = function(models) {
-    //  associating shareholders to songs
+      //associating shareholders to songs
 
         shareholders.belongsToMany(models.songs,{
             through: "ShareholderSongs"
