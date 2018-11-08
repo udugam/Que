@@ -18,11 +18,11 @@ router.route('/upload')
                 args: ['-f', '/Users/udugam/Documents/UofT-CodingBootcamp-Homework/NewQueFolder/Que/que/audio_files/uploadedFile.mp3',
                         '-c', '/Users/udugam/Documents/UofT-CodingBootcamp-Homework/NewQueFolder/Que/que/acrcloud_scan_files_python/config.json']
             };
-    
+            
             PythonShell.run(`acrcloud_scan_files_python.py`, options, function(err, results) {
                 if (err) throw err
                 console.log('acr finished scanning')
-                processCSV('/Users/udugam/Documents/UofT-CodingBootcamp-Homework/NewQueFolder/Que/que/result-uploadedFile.mp3.csv', function(result) {
+                processCSV('/Users/udugam/Documents/UofT-CodingBootcamp-Homework/NewQueFolder/Que/que/result-uploadedFile.mp3.csv', req.body.cueSheetId, function(result) {
                     res.json(result)
                 })
             })

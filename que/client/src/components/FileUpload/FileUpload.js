@@ -28,6 +28,7 @@ class FileUpload extends Component {
     handleUpload = () => {
         const data = new FormData()
         data.append('file', this.state.selectedFile, this.state.selectedFile.name)
+        data.append('cueSheetId', this.props.cueSheetId)
 
         axios.post("/api/upload", data, {
             onUploadProgress: ProgressEvent => {
@@ -37,7 +38,12 @@ class FileUpload extends Component {
             },
         })
         .then(res => {
-            console.log(res)
+            if(res.data === true) {
+                console.log("Scan Completed")
+                this.props.getCuesCallBack()
+            } else {
+                console.log("Error")
+            }
         })
     }
 

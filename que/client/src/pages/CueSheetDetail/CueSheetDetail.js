@@ -312,7 +312,7 @@ class NewCue extends Component {
 
                 <Container>
                     <Row>
-                        <FileUpload  cueSheetId={this.state.cueSheet.id}/>
+                        <FileUpload getCuesCallBack={this.getCueSheet} cueSheetId={this.state.cueSheet.id}/>
                        
                         <ModalEx
                             dataId={this.props.match.params.id}

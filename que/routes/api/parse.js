@@ -9,7 +9,8 @@ const db = require("../../models");
 
 
 //Read the csv file created by the ACRCloud Python SDK
-const processCSV = function(filePath, cb) {
+const processCSV = function(filePath, cueSheetId, cb) {
+    console.log(cueSheetId)
     fs.createReadStream(filePath)
         .pipe(parse({
             columns:true, //uses first line of csv as object key names for remaining lines of the file
@@ -36,9 +37,7 @@ const processCSV = function(filePath, cb) {
                 let song = {
                     songTitle: result.songName,
                     artists: result.artists,
-                    duration: result.duration,
                     fingerprintId: result.acrid,
-                    cueSheetId: '3'
                 }
 
                 db.songs.create(song)
@@ -48,7 +47,7 @@ const processCSV = function(filePath, cb) {
                     // Song Title: ${song.songTitle}
                     // Artist: ${song.artists}`)
                     db.cues.create({
-                        cueSheetId: song.cueSheetId,
+                        cueSheetId: cueSheetId,
                         duration: result.duration,
                         songId: song.id
                     }).then(() => {
