@@ -4,11 +4,13 @@ const sec = require('sec') //converts string of format 00:00:00 to seconds integ
 const rawDataArray = []
 const songController = require('../../controllers/songsControllers')
 const cueController = require('../../controllers/cueController')
+const db = require("../../models");
+
 
 
 //Read the csv file created by the ACRCloud Python SDK
-// const processCSV = function(filePath) {
-    fs.createReadStream(process.argv[2])
+const processCSV = function(filePath, cb) {
+    fs.createReadStream(filePath)
         .pipe(parse({
             columns:true, //uses first line of csv as object key names for remaining lines of the file
             trim:true
@@ -34,19 +36,28 @@ const cueController = require('../../controllers/cueController')
                 let song = {
                     songTitle: result.songName,
                     artists: result.artists,
-                    fingerprintId: result.acrid
+                    duration: result.duration,
+                    fingerprintId: result.acrid,
+                    cueSheetId: '3'
                 }
-                songController.insert(song, () => {
-                    console.log("songs added")
-                    let cue = {
+
+                db.songs.create(song)
+                .then(song =>{
+                    // console.log(song)
+                    // console.log(`Song Id: ${song.id}
+                    // Song Title: ${song.songTitle}
+                    // Artist: ${song.artists}`)
+                    db.cues.create({
+                        cueSheetId: song.cueSheetId,
                         duration: result.duration,
-                        songId: 3
-                    }
-                    cueController.insert(cue)
+                        songId: song.id
+                    }).then(() => {
+                        cb(true)
+                    })
                 })
             })
         })
-// }
+}
   
 
 const removeExtraData = (rawDataArray) => {
@@ -91,5 +102,5 @@ const filterEditedResults = (editedResultsArray) => {
     return summary
 }
 
-// module.exports = processCSV
+module.exports = processCSV
 
