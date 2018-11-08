@@ -41,7 +41,7 @@ class CueCard extends Component {
                                     </Dropdown>
 
                                 </div>
-                                <div data-songId={this.props.songId} className="card-body">
+                                <div data-songid={this.props.songId} className="card-body">
                                     Artist(s): {this.props.artists} <br></br>
                                     Duration: {this.props.duration}
                                     <br></br>
