@@ -5,7 +5,6 @@ module.exports = {
 // the insert route will only add a new song assuming it doesn't exist
 // on the front end we can have an option for user to select an existing song
     insert: function(req, res){
-        // console.log(req.body)
         db.songs.create(req.body)
         .then(song =>{
             // console.log(song)

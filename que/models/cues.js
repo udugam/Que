@@ -2,7 +2,7 @@ module.exports = function(sequelize, DataTypes) {
 
     var cues =sequelize.define("cues", {
         // productionId: DataTypes.INTEGER,
-        // songId: DataTypes.INTEGER,
+        songId: DataTypes.INTEGER,
         duration: DataTypes.INTEGER,
         usage: DataTypes.STRING
     });
