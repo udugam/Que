@@ -7,8 +7,8 @@ const cueController = require('../../controllers/cueController')
 
 
 //Read the csv file created by the ACRCloud Python SDK
-const processCSV = function(filePath) {
-    fs.createReadStream(filePath)
+// const processCSV = function(filePath) {
+    fs.createReadStream(process.argv[2])
         .pipe(parse({
             columns:true, //uses first line of csv as object key names for remaining lines of the file
             trim:true
@@ -36,7 +36,8 @@ const processCSV = function(filePath) {
                     artists: result.artists,
                     fingerprintId: result.acrid
                 }
-                songController.insert(song, function() {
+                songController.insert(song, () => {
+                    console.log("songs added")
                     let cue = {
                         duration: result.duration,
                         songId: 3
@@ -45,7 +46,7 @@ const processCSV = function(filePath) {
                 })
             })
         })
-}
+// }
   
 
 const removeExtraData = (rawDataArray) => {
@@ -90,5 +91,5 @@ const filterEditedResults = (editedResultsArray) => {
     return summary
 }
 
-module.exports = processCSV
+// module.exports = processCSV
 
