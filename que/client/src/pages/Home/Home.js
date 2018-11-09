@@ -2,6 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { withAuth } from '@okta/okta-react';
 import WelcomeUser from '../../components/WelcomeUser/WelcomeUser.js'
+import Sendemail from '../../components/Sendemail/Sendemail.js'
+
 
 export default withAuth(
 
@@ -29,9 +31,10 @@ export default withAuth(
             const homeContent = this.state.authenticated ? (
                 <div>
                     <WelcomeUser />
-                    <p>
+                    <div>
                         <Link to="/cuesheet"><button>Create new Cuesheet!</button></Link>
-                    </p>
+                    </div>
+            <Sendemail/>
                 </div>
             ) : (
                 <div>
@@ -41,7 +44,7 @@ export default withAuth(
             return (
                 <div className="jumbotron">
                     <h2 className="display-4">Cue App</h2>
-                    <p> {homeContent} </p>
+                    <div> {homeContent} </div>
                 </div>
             );
         }
