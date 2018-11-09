@@ -5,6 +5,10 @@ module.exports = function(sequelize, DataTypes) {
         role: DataTypes.STRING
     });
 
+    // shareholderSongs.associate = function(models) {
+    //     shareholderSongs.belongsTo(models.songs, )
+    // }
+
    
     return shareholderSongs;
   };

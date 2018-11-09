@@ -1,8 +1,10 @@
 import React, {Component} from 'react'
 import "./CueSheet.css"
 import NewHeader from "../NewHeader"
+import CsvCreator from 'react-csv-creator';
+import CueSheetDetail from '../CueSheetDetail';
 import API from "../../utils/API"
-import {BrowserRouter as Router, Route} from 'react-router-dom'
+import {BrowserRouter as Router, Route, Redirect} from 'react-router-dom'
 import {FormBtn, Input} from '../../components/Form'
 import {Row} from "../../components/Table"
 
@@ -11,19 +13,37 @@ class CueSheet extends Component{
     
     state = {
         search: '',
-        cueSheet: []
+        cueSheet: [],
+        goToCueSheet: false,
+        goToCueId: 0,
+        email: JSON.parse(localStorage.getItem('okta-token-storage')).idToken.claims.email,
+        headers: [
+            {id: "first",
+            display: 'First column' },
+            {id: "second",
+            display: 'second column' }
+        ], 
+        test: [{
+            first: 'foo',
+            second: 'bar'
+          }, {
+            first: 'foobar',
+            second: null
+          }]
     }
-
+ 
     componentDidMount(){
         this.loadCueSheet();
     }
 
     loadCueSheet = () => {
-        API.getCues()
+        API.getCues(this.state.email)
             .then(result => {
                 console.log(result)
-                this.setState({cueSheet: result.data})
-                console.log(this.state.cueSheet)
+                this.setState({cueSheet: result.data}, () => {
+                    console.log(this.state.cueSheet)
+
+                })
             })
             .catch(err => console.log(err));
     }
@@ -35,37 +55,35 @@ class CueSheet extends Component{
         });
     };
 
-    handleFormSubmit = event => {
-        event.preventDefault();
-        console.log("hello")
-        // API.getCues()
-        //     .then(function(result){
-        //         console.log(result)
-        //     })
-        // console.log(this.state)
-        // if (this.state.title && this.state.author) {
-        //     API.saveBook({
-        //     title: this.state.title,
-        //     author: this.state.author,
-        //     synopsis: this.state.synopsis
-        //     })
-        //     .then(res => this.loadBooks())
-        //     .catch(err => console.log(err));
-        // }
-    };
+    goToCue = id =>{
+        console.log(id)
+        this.setState({goToCueId: id})
+        this.setState({goToCueSheet: true})
+    }
+    getDownloadInfo = id => {
+        API.getAllInfo(id)
+            .then(result => {
+                console.log(result)
+            })
+    }
+
     
     render(){
+        if(this.state.goToCueSheet === true){
+            return <Redirect to={`/cuesheet/${this.state.goToCueId}`}/>
+        }
+
         return(
             <Router>
                 <div className="container">
                     <button className="btn btn-secondary float-right">
                         <a href="/newHeader" className="newHeaderBtn">
-                            New Header
+                            <h6>New Cue Sheets</h6>
                         </a>
                         <Route exact path="/newHeader" component={NewHeader}/>
                     </button>
-                    <form>
-                        <h3>Search Cue</h3>
+                    <h3>Search Cue</h3>
+                    {/* <form>
                         <Input
                             value={this.state.search}
                             onChange={this.handleInputChange}
@@ -84,7 +102,7 @@ class CueSheet extends Component{
                             SUBMIT
                         </FormBtn>
 
-                    </form>
+                    </form> */}
                 
                     <table className="table">
                         <thead className="thead-dark">
@@ -94,6 +112,8 @@ class CueSheet extends Component{
                                 <th scope="col">Type</th>
                                 <th scope="col">Production Duration</th>
                                 <th scope="col">Music Duration</th>
+                                <th scope="col">Edit Cue</th>
+                                <th scope="col">Download CSV</th>
                             </tr>
                         </thead>
                         <tbody className="cueInfo">
@@ -107,10 +127,11 @@ class CueSheet extends Component{
                                         type={cues.type}
                                         productionDuration={cues.productionDuration}
                                         musicDuration={cues.musicDuration}
-                                        goToCue={this.handleFormSubmit}
+                                        goToCue={this.goToCue}
                                     />
                                 )
                             })}
+                            
                         </tbody>
                     </table>
                 </div>
