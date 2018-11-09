@@ -5,7 +5,6 @@ import "./row.css"
 export const Row = props => {
     return (
         <tr>
-            <td>{props.productionId}</td>
             <td>{props.productionTitle}</td>
             <td>{props.type}</td>
             <td>{props.productionDuration}</td>
@@ -16,16 +15,9 @@ export const Row = props => {
                 </button>
             </td>
             <td>
-                <button className="btn btn-secondary float-right">
+                <button className="btn btn-secondary float-right" onClick={() => props.downloadFile(props.productionTitle)}>
                     Download CSV
                 </button>
-                {/* <CsvCreator
-                            filename='quesheet_csv'
-                            headers={this.state.headers}
-                            rows={this.state.test}
-                        >
-                            <h6>Download CSV</h6>
-                        </CsvCreator> */}
             </td>
         </tr>
     )

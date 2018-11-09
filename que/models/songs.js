@@ -17,9 +17,9 @@ module.exports = function(sequelize, DataTypes) {
           onDelete: "cascade"
         });
 
-        //songs.belongsToMany(models.shareholders,{
-        //    through: "shareholderSongs"
-        //})
+        songs.belongsToMany(models.shareholders,{
+           through: "shareholderSongs"
+        })
       };
     return songs;
   };
