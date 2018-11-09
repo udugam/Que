@@ -33,7 +33,7 @@ class FileUpload extends Component {
         axios.post("/api/upload", data, {
             onUploadProgress: ProgressEvent => {
                 this.setState({
-                    loaded: (ProgressEvent.loaded / ProgressEvent.total*100),
+                    loaded: Math.ceil((ProgressEvent.loaded / ProgressEvent.total*100)),
                 })
             },
         })
@@ -59,10 +59,12 @@ class FileUpload extends Component {
                         </FormText>
                     </Col>
                     <Col md="4">
-                        {this.state.loaded===0 ? 
-                        <Button onClick={this.handleUpload}>Upload File</Button>
-                        :
-                        <Progress value={this.state.loaded}>{this.state.loaded}</Progress>}
+                        {(this.state.selectedFile && this.state.loaded===0) && 
+                           <Button onClick={this.handleUpload}>Upload File</Button>
+                       	}
+			{this.state.loaded>0 &&
+                          <Progress value={this.state.loaded}>{this.state.loaded}</Progress>
+			}
                     </Col> 
 
                 </Row>

@@ -31,14 +31,15 @@ const processCSV = function(filePath, cueSheetId, cb) {
 
             //filter array to only contain single songs with their duration
             const summary = filterEditedResults(editedResults)
-            
+            const numSongs = summary.length
+
             //Loop through summary array and add each song to the database
-            summary.forEach(result => {
+            summary.forEach((result,index) => {
                 let song = {
                     songTitle: result.songName,
                     artists: result.artists,
                     fingerprintId: result.acrid,
-                }
+               }
 
                 db.songs.create(song)
                 .then(song =>{
@@ -51,19 +52,24 @@ const processCSV = function(filePath, cueSheetId, cb) {
                         duration: result.duration,
                         songId: song.id
                     }).then(() => {
-			//Send email notification that cues are ready
-			let mail = {
-                           from: 'admin@cueapp.com',
-                           to: 'cue_app@mailinator.com',
-                           subject: 'Your cue is ready!',
-                           text: 'Your recently submitted audio file has been processed and your new cues are ready to be finalized for submission. Visit cue.com to proceed',
-                           html: '<p>Your recently submitted audio file has been processed and your new cues are ready to be finalized for submission. Visit cue.com to proceed</p>'
-                        };	 
+			//Send email notification that cues are ready after last song is added
+			 console.log("before check")
+			if(index+1 === numSongs) {
+				console.log("we're in!")
+			   let mail = {
+                           	from: 'admin@cueapp.com',
+                           	to: 'cue_app@mailinator.com',
+                           	subject: 'Your cues are ready!',
+                           	text: 'Your recently submitted audio file has been processed and your new cues are ready to be finalized for submission. Visit cue.com to proceed',
+                           	html: '<p>Your recently submitted audio file has been processed and your new cues are ready to be finalized for submission. Visit cue.com to proceed</p>'
+                           };
 
-			transporter.sendMail(mail, (err,data) => {
+
+			   transporter.sendMail(mail, (err,data) => {
 				if(err) throw err	
 				cb(true)
-			})
+			   })
+			}
                     })
                 })
             })
