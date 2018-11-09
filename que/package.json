@@ -27,6 +27,7 @@
     "if-env": "^1.0.4",
     "mysql": "^2.10.2",
     "mysql2": "^1.6.1",
+    "nodemailer": "^4.6.8",
     "python-shell": "^1.0.6",
     "react-csv-creator": "^1.1.0",
     "react-ions": "^5.1.28",
