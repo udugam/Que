@@ -10,9 +10,11 @@ class NewHeader extends Component {
     state = {
         id: 0,
         productionTitle: "",
+        productionYear: 0,
         type: "",
         productionDuration: 0,
         musicDuration: 0,
+        userEmail:  "",
         nextPage: false,
         missingInfo: false
     }
@@ -21,6 +23,13 @@ class NewHeader extends Component {
         const { name, value } = event.target;
         this.setState({
           [name]: value.trim()
+        });
+    };
+
+    componentDidMount() {
+        const idToken = JSON.parse(localStorage.getItem('okta-token-storage'));
+        this.setState({
+            userEmail: idToken.idToken.claims.email
         });
     };
 
@@ -45,12 +54,17 @@ class NewHeader extends Component {
 
             <Router>
                 <div className="container">
-                    <h2 className="text-center">Header Form</h2>
+                    <h2 className="text-center">Cue Sheet Form</h2>
                     <form>
                         <Input
                             onChange={this.handleInputChange}
                             name="productionTitle"
                             placeholder="Production Title"
+                        />
+                        <Input
+                            onChange={this.handleInputChange}
+                            name="productionYear"
+                            placeholder="Production Year"
                         />
                         <Select
                             onChange={this.handleInputChange}
@@ -61,11 +75,6 @@ class NewHeader extends Component {
                             onChange={this.handleInputChange}
                             name="productionDuration"
                             placeholder="Production Duration"
-                        />
-                        <Input
-                            onChange={this.handleInputChange}
-                            name="musicDuration"
-                            placeholder="Music Duration"
                         />
                         <FormBtn
                             onClick={this.handleFormSubmit}    
@@ -78,7 +87,6 @@ class NewHeader extends Component {
                             </a>
                         </button>
                         <Route exact path="/cueSheet" component={CueSheet}/>
-                        <Route exact path="/cueSheet/" component={CueSheetDetail}/>
                     </form>
                     {this.state.missingInfo ? (
                         <h4>Missing Infomation</h4>

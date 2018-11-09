@@ -1,6 +1,7 @@
 module.exports = function(sequelize, DataTypes) {
 
     var cueSheet =sequelize.define("cueSheet", {
+        userEmail: DataTypes.STRING,
         productionTitle: DataTypes.STRING,
         productionYear: DataTypes.INTEGER,
         type: DataTypes.STRING,

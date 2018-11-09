@@ -2,10 +2,40 @@ const db = require("../models");
 
 module.exports = {
     find: function(req, res){
-        db.cueSheet.findAll({})
-            .then(function(result){
-                res.json(result.data.id)
+        db.cueSheet.findAll({
+            where: {
+                userEmail: req.params.email
+            }
+        })
+            .then(function(cueSheets){
+                res.json(cueSheets)  
             })
+    },
+    findAllInfo: function(req, res) {
+        console.log(req.params.id)
+
+        db.cueSheet.findAll({
+            where: {userEmail: "test@mail.com" },
+            include: [{
+                model: db.cues
+            }]
+        }).then(cuesC => {
+            db.cues.findAll({
+                where: { },
+                include: [{
+                    model: db.songs
+                }]
+            }).then(cueSong => {
+                db.songs.findAll({
+                    where: { },
+                    include: [{
+                        model: db.shareholders
+                    }]
+                }).then(songSharS => {
+                    res.json({first: cuesC, second: cueSong, third: songSharS})
+                })
+            })
+        })
     },
     insert: function(req, res){
         db.cueSheet.create(req.body)
@@ -40,10 +70,3 @@ module.exports = {
             })
     }
 }
-// findById = function(req, res){
-//     var cueSheetId = 1
-//     db.cueSheet.findByPk(cueSheetId)
-//     .then(dbCueSheet =>{
-//         console.log(dbCueSheet.dataValues)})}
-
-//         findById()
