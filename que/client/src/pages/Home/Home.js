@@ -31,7 +31,7 @@ export default withAuth(
             const homeContent = this.state.authenticated ? (
                 <div>
                     <WelcomeUser />
-                    <>
+                    <div>
                         <Link to="/cuesheet"><button>Create new Cuesheet!</button></Link>
                     </div>
             <Sendemail/>
