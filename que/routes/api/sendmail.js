@@ -49,4 +49,4 @@ router.route("/sendemail")
         });
     });
 
-module.exports = router;
+module.exports = transporter;

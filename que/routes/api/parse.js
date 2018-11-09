@@ -5,7 +5,7 @@ const rawDataArray = []
 const songController = require('../../controllers/songsControllers')
 const cueController = require('../../controllers/cueController')
 const db = require("../../models");
-
+const transporter = require('./sendmail.js')
 
 
 //Read the csv file created by the ACRCloud Python SDK
@@ -51,7 +51,19 @@ const processCSV = function(filePath, cueSheetId, cb) {
                         duration: result.duration,
                         songId: song.id
                     }).then(() => {
-                        cb(true)
+			//Send email notification that cues are ready
+			let mail = {
+                           from: 'admin@cueapp.com',
+                           to: 'cue_app@mailinator.com',
+                           subject: 'Your cue is ready!',
+                           text: 'Your recently submitted audio file has been processed and your new cues are ready to be finalized for submission. Visit cue.com to proceed',
+                           html: '<p>Your recently submitted audio file has been processed and your new cues are ready to be finalized for submission. Visit cue.com to proceed</p>'
+                        };	 
+
+			transporter.sendMail(mail, (err,data) => {
+				if(err) throw err	
+				cb(true)
+			})
                     })
                 })
             })
