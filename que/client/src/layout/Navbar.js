@@ -63,7 +63,7 @@ export default withAuth(
                                 </li>
                                 <li className="nav-item">
                                 <Link className="nav-link" to="/cuesheet">
-                                    Create CueSheet
+                                    CueSheet
                                 </Link>
                                 </li>
                                 <li className="nav-item">
