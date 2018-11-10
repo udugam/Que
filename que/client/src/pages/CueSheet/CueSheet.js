@@ -78,7 +78,7 @@ class CueSheet extends Component{
                 <div className="container">
                     <button className="btn btn-secondary float-right">
                         <a href="/newHeader" className="newHeaderBtn">
-                            <h6>New Cue Sheets</h6>
+                            <h6>Cue Sheets</h6>
                         </a>
                         <Route exact path="/newHeader" component={NewHeader}/>
                     </button>
