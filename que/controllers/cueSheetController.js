@@ -15,25 +15,25 @@ module.exports = {
         console.log(req.params.id)
 
         db.cueSheet.findAll({
-            where: {userEmail: "test@mail.com" },
+            where: {userEmail: req.params.id },
             include: [{
                 model: db.cues
             }]
         }).then(cuesC => {
-            db.cues.findAll({
-                where: { },
+            let input = []
+            for(var i = 0; i < cuesC.length; i++){
+                for(var j = 0; j < cuesC.length; j++){
+                    input.push(cuesC[i].dataValues.cues[j].dataValues.songId)
+                }
+            }
+            console.log(input)
+            db.songs.findAll({
+                where: {id: input },
                 include: [{
-                    model: db.songs
+                    model: db.shareholders
                 }]
-            }).then(cueSong => {
-                db.songs.findAll({
-                    where: { },
-                    include: [{
-                        model: db.shareholders
-                    }]
-                }).then(songSharS => {
-                    res.json({first: cuesC, second: cueSong, third: songSharS})
-                })
+            }).then(songSharS => {
+                res.json({first: cuesC, second: songSharS})
             })
         })
     },
