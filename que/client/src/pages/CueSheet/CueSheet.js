@@ -1,12 +1,12 @@
 import React, {Component} from 'react'
 import "./CueSheet.css"
 import NewHeader from "../NewHeader"
-import CsvCreator from 'react-csv-creator';
 import CueSheetDetail from '../CueSheetDetail';
 import API from "../../utils/API"
 import {BrowserRouter as Router, Route, Redirect} from 'react-router-dom'
 import {FormBtn, Input} from '../../components/Form'
 import {Row} from "../../components/Table"
+import downloadCVS from 'download-csv';
 
 
 class CueSheet extends Component{
@@ -17,32 +17,21 @@ class CueSheet extends Component{
         goToCueSheet: false,
         goToCueId: 0,
         email: JSON.parse(localStorage.getItem('okta-token-storage')).idToken.claims.email,
-        headers: [
-            {id: "first",
-            display: 'First column' },
-            {id: "second",
-            display: 'second column' }
-        ], 
-        test: [{
-            first: 'foo',
-            second: 'bar'
-          }, {
-            first: 'foobar',
-            second: null
-          }]
+        headers: [], 
+        rows: [],
+        data: []
     }
  
     componentDidMount(){
         this.loadCueSheet();
+        this.getDownloadInfo(this.state.email);
     }
 
     loadCueSheet = () => {
         API.getCues(this.state.email)
             .then(result => {
-                console.log(result)
                 this.setState({cueSheet: result.data}, () => {
                     console.log(this.state.cueSheet)
-
                 })
             })
             .catch(err => console.log(err));
@@ -63,11 +52,50 @@ class CueSheet extends Component{
     getDownloadInfo = id => {
         API.getAllInfo(id)
             .then(result => {
-                console.log(result)
+                console.log(result.data.first)
+                console.log(result.data.second)
+
+                var data = [];
+                
+                for(var i = 0; i < result.data.first.length; i++){
+                    for(var j = 0; j < result.data.first[i].cues.length; j++){
+                        var index = result.data.second.findIndex(x => x.id === result.data.first[i].cues[j].songId)
+                        for(var k = 0; k < result.data.second[index].shareholders.length; k++){
+                            var inputing = {
+                                productionTitle: result.data.first[i].productionTitle,
+                                type: result.data.first[i].type,
+                                productionYear: result.data.first[i].productionYear,
+                                productionDuration: result.data.first[i].productionDuration,
+                                musicDuration: result.data.first[i].musicDuration,
+                                cueDuration: result.data.first[i].cues[j].duration,
+                                usage: result.data.first[i].cues[j].usage,
+                                songTitle: result.data.second[index].songTitle,
+                                fingerprintId: result.data.second[index].fingerprintId,
+                                artist: result.data.second[index].artist,
+                                affiliation: result.data.second[index].shareholders[k].affiliation,
+                                ipiNumber: result.data.second[index].shareholders[k].ipiNumber,
+                                shareholderName: result.data.second[index].shareholders[k].shareholderName,
+                                role: result.data.second[index].shareholders[k].shareholderSongs.role,
+                                shares: result.data.second[index].shareholders[k].shareholderSongs.shares,
+                            }
+                            data.push(inputing)
+                        }
+                    }
+                }
+
+                this.setState({data: data})
             })
     }
 
-    
+    downloadCSVFile = (name) =>{
+        var sendingData = []
+        for(var i = 0; i < this.state.data.length; i++){
+            if(this.state.data[i].productionTitle === name)
+                sendingData.push(this.state.data[i])
+        }
+        downloadCVS(sendingData)
+    }    
+
     render(){
         if(this.state.goToCueSheet === true){
             return <Redirect to={`/cuesheet/${this.state.goToCueId}`}/>
@@ -76,6 +104,16 @@ class CueSheet extends Component{
         return(
             <Router>
                 <div className="container">
+                    <button onClick={() => this.getDownloadInfo(this.state.email)}>
+                    {/* <CsvCreator
+                            filename='quesheet_csv'
+                            headers={this.state.headers}
+                            rows={this.state.rows}
+                        >
+                            <h6>Download CSV</h6>
+                        </CsvCreator> */}
+                    </button>
+                    
                     <button className="btn btn-secondary float-right">
                         <a href="/newHeader" className="newHeaderBtn">
                             <h6>Create Cue Sheets</h6>
@@ -107,7 +145,6 @@ class CueSheet extends Component{
                     <table className="table">
                         <thead className="thead-dark">
                             <tr>
-                                <th scope="col">Production Id</th>
                                 <th scope="col">Production Title</th>
                                 <th scope="col">Type</th>
                                 <th scope="col">Production Duration</th>
@@ -128,6 +165,7 @@ class CueSheet extends Component{
                                         productionDuration={cues.productionDuration}
                                         musicDuration={cues.musicDuration}
                                         goToCue={this.goToCue}
+                                        downloadFile={this.downloadCSVFile}
                                     />
                                 )
                             })}
