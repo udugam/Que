@@ -6,7 +6,7 @@ module.exports = function(sequelize, DataTypes) {
         artists: DataTypes.STRING,
         // shareholdersId: DataTypes.STRING,
         // shareholderName: DataTypes.STRING,
-        fingerprintId: DataTypes.STRING
+        fingerprintId: {type:DataTypes.STRING, unique: true}
     });
 
     songs.associate = function(models) {
