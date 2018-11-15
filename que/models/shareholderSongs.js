@@ -5,9 +5,13 @@ module.exports = function(sequelize, DataTypes) {
         role: DataTypes.STRING
     });
 
-    // shareholderSongs.associate = function(models) {
-    //     shareholderSongs.belongsTo(models.songs, )
-    // }
+    shareholderSongs.associate = function(models) {
+        shareholderSongs.belongsTo(models.songs, {
+            foreignKey: {
+              allowNull: false
+            }
+          })
+    }
 
    
     return shareholderSongs;

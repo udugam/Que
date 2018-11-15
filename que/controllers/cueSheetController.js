@@ -13,6 +13,7 @@ module.exports = {
     },
     findAllInfo: function(req, res) {
         console.log(req.params.id)
+        console.log("---------------------------------------------")
 
         db.cueSheet.findAll({
             where: {userEmail: req.params.id },
@@ -23,10 +24,11 @@ module.exports = {
             let input = []
             for(var i = 0; i < cuesC.length; i++){
                 for(var j = 0; j < cuesC.length; j++){
-                    input.push(cuesC[i].dataValues.cues[j].dataValues.songId)
+                    if(cuesC[i].dataValues.cues[j]){
+                        input.push(cuesC[i].dataValues.cues[j].dataValues.songId)
+                    }
                 }
             }
-            console.log(input)
             db.songs.findAll({
                 where: {id: input },
                 include: [{
