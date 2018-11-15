@@ -93,7 +93,12 @@ class CueSheet extends Component{
             if(this.state.data[i].productionTitle === name)
                 sendingData.push(this.state.data[i])
         }
-        downloadCVS(sendingData)
+        console.log(sendingData)
+        if(sendingData.length === 0){
+            alert("You At Least One Cue")
+        }else{
+            downloadCVS(sendingData)
+        }
     }    
 
     render(){

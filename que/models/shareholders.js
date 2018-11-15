@@ -12,7 +12,7 @@ module.exports = function(sequelize, DataTypes) {
       //associating shareholders to songs
 
         shareholders.belongsToMany(models.songs,{
-            through: "ShareholderSongs"
+            through: "shareholderSongs"
         })
       };
     return shareholders;
