@@ -13,27 +13,29 @@ module.exports = {
     },
     findAllInfo: function(req, res) {
         console.log(req.params.id)
+        console.log("---------------------------------------------")
 
         db.cueSheet.findAll({
-            where: {userEmail: req.params.id },
+            where: { userEmail: req.params.id },
             include: [{
-                model: db.cues
+                all: true,
+                include: [{ all: true,
+                include:[{all:true}] }]
             }]
-        }).then(cuesC => {
-            let input = []
-            for(var i = 0; i < cuesC.length; i++){
-                for(var j = 0; j < cuesC.length; j++){
-                    input.push(cuesC[i].dataValues.cues[j].dataValues.songId)
-                }
-            }
-            console.log(input)
-            db.songs.findAll({
-                where: {id: input },
+        }).then(result => {
+            var belongId= []
+            result.forEach(element => {
+                belongId.push(element.dataValues.id)
+            });
+            db.cues.findAll({
+                where: { cueSheetId: belongId },
                 include: [{
-                    model: db.shareholders
+                    all: true,
+                    include: [{ all: true,
+                    include:[{all:true}] }]
                 }]
-            }).then(songSharS => {
-                res.json({first: cuesC, second: songSharS})
+            }).then(dbcues => {
+                res.json(dbcues)
             })
         })
     },
