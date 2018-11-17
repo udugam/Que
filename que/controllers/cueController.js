@@ -17,26 +17,22 @@ module.exports = {
                 cueSheetId: req.body.cueSheetId,
                 songId: song.id
             }).then(cueResults =>{
-                console.log(cueResults)
                 res.json(cueResults)
             })
         })
 
     },
     delete: function(req, res){
-        console.log(req.body)
         db.cues.destroy({
             where:{
                 id:req.body.cueId
             }
         }).then(deleted=>{
-            console.log(deleted)
             res.json(deleted)
         })
     },
 
     edit: function(req, res){
-        console.log(req.body)
         db.cues.update({
             duration:req.body.duration,
             usage: req.body.usage
@@ -45,7 +41,6 @@ module.exports = {
                 id:req.body.cueId
             }
         }).then(cueResults=>{
-            // console.log(cueResults)
             db.songs.update({
                 songTitle:req.body.songTitle,
                 artists: req.body.artists
@@ -54,7 +49,6 @@ module.exports = {
                     id: req.body.songId
                 }
             }).then(songRes=>{
-                console.log(songRes)
                 res.json(songRes)
             })
         })

@@ -2,7 +2,7 @@ const db = require("../models");
 
 module.exports = {
     insert: function (req, res) {
-        console.log(req.body)
+        //console.log(req.body)
         db.shareholders.findOrCreate({
             where: {
                 ipiNumber: req.body.ipiNumber
@@ -35,18 +35,18 @@ module.exports = {
                 }
             })
                 .spread((shares, sharesCreated) => {
-                    console.log({
-                        user: user.get({
-                            plain: true
-                        }),
-                        userComplete: created,
-                        shares: shares.get({
-                            plain: true
-                        }),
-                        sharesCreated: sharesCreated
+                    // console.log({
+                    //     user: user.get({
+                    //         plain: true
+                    //     }),
+                    //     userComplete: created,
+                    //     shares: shares.get({
+                    //         plain: true
+                    //     }),
+                    //     sharesCreated: sharesCreated
 
-                    },
-                    res.json(shares))
+                    // },
+                    // res.json(shares))
 
                 })
             // .then(res => {
@@ -57,19 +57,19 @@ module.exports = {
 
     },
     delete: function (req, res) {
-        console.log(req.body)
+        //console.log(req.body)
         db.shareholderSongs.destroy({
             where: {
                 songId: req.body.songId,
                 shareholderId: req.body.shareholderId
             }
         }).then(deleted => {
-            console.log(deleted)
+            //console.log(deleted)
             res.json(deleted)
         })
     },
     getInfo: function(req, res){
-        console.log(req.params.email)
+        //console.log(req.params.email)
         db.shareholderSongs.findAll({
             include: [{
                 all: true,

@@ -12,8 +12,8 @@ module.exports = {
             })
     },
     findAllInfo: function(req, res) {
-        console.log(req.params.id)
-        console.log("---------------------------------------------")
+        // console.log(req.params.id)
+        // console.log("---------------------------------------------")
 
         db.cueSheet.findAll({
             where: { userEmail: req.params.id },
@@ -67,7 +67,7 @@ module.exports = {
                 })
             })
             .catch(err => {
-                console.log(err)
+                //console.log(err)
                 res.status(422).json(err)
             })
     }

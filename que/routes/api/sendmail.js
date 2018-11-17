@@ -26,8 +26,6 @@ transporter.verify((error, success) => {
 
 router.route("/sendemail")
     .post(function (req, res) {
-        console.log('test', req.body);
-        console.log('test', res);
         let mail = {
             from: 'admin@cueapp.com',
             to: req.body.toEmail,
