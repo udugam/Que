@@ -6,6 +6,7 @@ import Home from './pages/Home';
 import CueSheet from './pages/CueSheet';
 import NewHeader from './pages/NewHeader';
 import CueSheetDetail from './pages/CueSheetDetail';
+import SongLibrary from './pages/SongLibrary'
 import Login from './components/auth/Login';
 import Navbar from './layout/Navbar';
 
@@ -27,6 +28,7 @@ const App = () => (
                 <SecureRoute exact path="/cuesheet" component={CueSheet}/>
                 <SecureRoute exact path="/newheader" component={NewHeader}/>
                 <SecureRoute exact path="/cuesheet/:id" component={CueSheetDetail}/>
+                <SecureRoute exact path="/songLibrary" component={SongLibrary}/>
                 <Route
                     path="/login"
                     render={() => (

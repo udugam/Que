@@ -1,10 +1,8 @@
 import React, {Component} from 'react'
 import "./CueSheet.css"
 import NewHeader from "../NewHeader"
-import CueSheetDetail from '../CueSheetDetail';
 import API from "../../utils/API"
 import {BrowserRouter as Router, Route, Redirect} from 'react-router-dom'
-import {FormBtn, Input} from '../../components/Form'
 import {Row} from "../../components/Table"
 import downloadCVS from 'download-csv';
 
