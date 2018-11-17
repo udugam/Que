@@ -1,7 +1,6 @@
 const fs = require('fs')
 const parse = require('csv-parse') //converts csv lines to objects
 const sec = require('sec') //converts string of format 00:00:00 to seconds integer
-const rawDataArray = []
 const songController = require('../../controllers/songsControllers')
 const cueController = require('../../controllers/cueController')
 const db = require("../../models");
@@ -10,7 +9,7 @@ const transporter = require('./sendmail.js')
 
 //Read the csv file created by the ACRCloud Python SDK
 const processCSV = function(filePath, cueSheetId, cb) {
-    console.log(cueSheetId)
+    const rawDataArray = []
     fs.createReadStream(filePath)
         .pipe(parse({
             columns:true, //uses first line of csv as object key names for remaining lines of the file
@@ -69,37 +68,6 @@ const processCSV = function(filePath, cueSheetId, cb) {
                         }
                     })
                 })
-                // .then(song =>{
-                //     // console.log(song)
-                //     // console.log(`Song Id: ${song.id}
-                //     // Song Title: ${song.songTitle}
-                //     // Artist: ${song.artists}`)
-                //     db.cues.create({
-                //         cueSheetId: cueSheetId,
-                //         duration: result.duration,
-                //         songId: song.id
-                //     }).then(() => {
-                //         //Send email notification that cues are ready after last song is added
-                //         console.log("before check")
-                //         if(index+1 === numSongs) {
-                //             console.log("we're in!")
-                //             let mail = {
-                //                             from: 'admin@cueapp.com',
-                //                             to: 'cue_app@mailinator.com',
-                //                             subject: 'Your cues are ready!',
-                //                             text: 'Your recently submitted audio file has been processed and your new cues are ready to be finalized for submission. Visit cue.com to proceed',
-                //                             html: '<p>Your recently submitted audio file has been processed and your new cues are ready to be finalized for submission. Visit cue.com to proceed</p>'
-                //                         };
-
-
-                //             transporter.sendMail(mail, (err,data) => {
-                //                 if(err) throw err	
-                //                 cb(true)
-                //             })
-                //         }
-                //     })
-                // })
-                
             })
         })
 }
