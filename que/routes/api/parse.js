@@ -30,7 +30,8 @@ const processCSV = function(filePath, cueSheetId, cb) {
 
             //filter array to only contain single songs with their duration
             const summary = filterEditedResults(editedResults)
-            const numSongs = summary.length
+            console.log(summary)
+            const numCues = summary.length
 
             //Loop through summary array and add each song to the database
             summary.forEach((result,index) => {
@@ -50,7 +51,7 @@ const processCSV = function(filePath, cueSheetId, cb) {
                     }).then(() => {
                         //Send email notification that cues are ready after last song is added
                         console.log("before check")
-                        if(index+1 === numSongs) {
+                        if(index+1 === numCues) {
                             console.log("we're in!")
                             let mail = {
                                             from: 'admin@cueapp.com',
