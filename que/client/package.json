@@ -2,7 +2,7 @@
   "name": "que",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://localhost:3001/",
+  "proxy": "http://142.93.159.65:3001/",
   "dependencies": {
     "@okta/okta-react": "^1.1.4",
     "@okta/okta-signin-widget": "^2.13.0",

@@ -1,6 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
+import * as Sentry from '@sentry/browser';
+
+//Initializes Sentry to track errors on the frontend
+Sentry.init({dsn: "https://d3487404651c418bbc3ba3d2b5720c4a@sentry.io/1319256"});
+
 
 ReactDOM.render(<App />, document.getElementById('root'));
 

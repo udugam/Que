@@ -338,9 +338,11 @@ class NewCue extends Component {
                 </Container>
 
                 <hr></hr>
-                <Container>
-                    <Button color="primary" data-id={this.props.match.params.id}>  Add new cue</Button>
-                </Container>
+		
+		
+		{/*<Container>
+                   <Button color="primary" data-id={this.props.match.params.id}>  Add new cue</Button>
+                </Container>*/}
                 {this.state.cues.map(cues => (
                     <CueCard
                         key={cues.id}
