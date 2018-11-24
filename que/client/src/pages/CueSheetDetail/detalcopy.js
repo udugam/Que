@@ -1,10 +1,8 @@
 // What does importing component do here ?? Instead of just react 
-import React, { Component, Fragment } from 'react';
-// import { Container, Row, TableRow } from "../../components/Grid";
-import { Container } from "../../components/Grid";
-// import CueCard from "../../components/CueCards"
-import CueCards from '../../components/NewCards/CueCards'
-import ProductionCard from "../../components/NewCards/ProductionCard"
+import React, { Component } from 'react';
+import { Container, Row, TableRow } from "../../components/Grid";
+import CueCard from "../../components/CueCards"
+import ProductionCard from "../../components/ProductionCard"
 import API from "../../utils/API"
 import ShareholderForm from "../../components/ShareholderAdd"
 import FileUpload from '../../components/FileUpload'
@@ -12,54 +10,31 @@ import ModalEx from "../../components/ModalsExample/ModalsEx"
 import SongsAdd from "../../components/SongandCuesAdd/SongsAdd"
 import CueAdd from "../../components/SongandCuesAdd/CueAdd"
 import ModalNb from "../../components/ModalsExample/ModalNb"
-// import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap'
-// import Button from '@material-ui/core/Button';
-// import { PrimaryButton, SecondaryButton } from '../../components/ButtonsAndIcons'
+// import ButtonIons from "react-ions/lib/components/Button"
+// import InlineEdit from 'react-ions/lib/components/InlineEdit'
+import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap'
+import Button from '@material-ui/core/Button';
+import { PrimaryButton, SecondaryButton } from '../../components/ButtonsAndIcons'
 import {
-    ButtonBase,
     Grid,
-    // Paper,
+    Paper,
     Typography,
-    // ListItemSecondaryAction,
-    // IconButton, 
-    // Card,
-    // CardHeader,
-    // CardContent
-} from "@material-ui/core";
-import { withStyles } from '@material-ui/core/styles';
-import ShareholdersTable from '../../components/Tables/ShareholderTable'
+    ListItemSecondaryAction,
+    IconButton
+  } from "@material-ui/core";
+  import { withStyles } from '@material-ui/core/styles';
 
-const styles = theme => ({
+  const styles = theme => ({
     root: {
-        flexGrow: 1,
+      flexGrow: 1,
     },
     paper: {
-        padding: theme.spacing.unit * 2,
-        // textAlign: 'center',
-        color: theme.palette.text.secondary,
-        marginTop: 40
+      padding: theme.spacing.unit * 2,
+      textAlign: 'center',
+      color: theme.palette.text.secondary,
+      marginTop: 30
     },
-    card:{
-        // padding: theme.spacing.unit * 2,
-        // textAlign: 'center',
-        // color: theme.palette.text.secondary,
-        marginTop: 40
-    },
-    cardHeader:{
-        background: '#f4511e'
-    },
-    buttonTest:{
-        margin:'0 auto',
-        justify:'center'
-    },
-    shareholderAdd:{
-        marginTop:20,
-        marginBottom:20
-    },
-    section:{
-        marginTop:20
-    }
-});
+  });
 
 
 // NEED TO ADD VALIDATION TO FORM SUBMISSIONS
@@ -87,10 +62,10 @@ class NewCue extends Component {
             addCueModal: false,
             deleteCueModal: false,
             editCueModal: false,
-            songTitleValue: "",
+            songTitleValue:"",
             artistNameValue: "",
-            usageValue: "",
-            durationValue: ""
+            usageValue:"",
+            durationValue:""
 
         };
         this.theTextInput = React.createRef();
@@ -98,7 +73,7 @@ class NewCue extends Component {
 
     // this is a generic modal trigger that will take in a paramter and update the modal 
     modalToggle = (modalParam) => {
-        // console.log(this.state[modalParam])
+        console.log(this.state[modalParam])
         this.setState({
             [modalParam]: !this.state[modalParam]
             // modal: !this.state.modal
@@ -144,24 +119,24 @@ class NewCue extends Component {
     deleteCue = id => {
         // alert(id)
         this.modalToggle("deleteCueModal")
-        this.setState({
-            cueId: id
-        })
+       this.setState({
+           cueId: id
+       })
     }
 
-    editCue = (props) => {
-
-        console.log("songId: ", props.songId)
+    editCue = (props)=>{
+        
+        console.log("songId: ",props.songId)
         this.modalToggle("editCueModal")
         this.setState({
             cueId: props.cueId,
             artistNameValue: props.artists,
             usageValue: props.usage,
             durationValue: props.duration,
-            songTitleValue: props.title,
+            songTitleValue:props.title,
             songId: props.songId
         })
-
+      
     }
 
     addShareholder = (cueId, songId) => {
@@ -188,8 +163,8 @@ class NewCue extends Component {
 
     handleInputChange = event => {
         const { name, value } = event.target;
-        console.log("event value: ", event.target.value)
-        console.log("name: ", event.target.name)
+        // console.log("here: ", event.target.value)
+        // console.log("name: ", event.target.name)
 
         this.setState({
             [name]: value
@@ -221,8 +196,8 @@ class NewCue extends Component {
 
     }
 
-    handleAddShareholder = () => {
-
+    handleAddShareholder = ()=> {
+        
         API.addShareholder({
             shareholderName: this.state.shareholderName,
             affiliation: this.state.affiliation,
@@ -242,7 +217,7 @@ class NewCue extends Component {
 
             })
 
-
+       
     };
 
     handleShareholderDelete = (event) => {
@@ -262,34 +237,34 @@ class NewCue extends Component {
         })
     }
 
-    handleDeleteCue = () => {
+    handleDeleteCue =()=>{
         console.log(this.artists)
         API.deleteCue({
             cueId: this.state.cueId
-        }).then(res => {
+        }).then(res =>{
             this.getCueSheet()
             this.modalToggle("deleteCueModal")
 
         })
     }
 
-    handleEditCue = () => {
+    handleEditCue =()=>{
         let data = {
             songTitle: this.state.songTitle,
             artists: this.state.performingArtist,
             usage: this.state.usage,
             duration: this.state.duration,
             cueSheetId: this.props.match.params.id,
-            cueId: this.state.cueId,
-            songId: this.state.songId
+            cueId:this.state.cueId,
+            songId:this.state.songId
         }
         console.log(data)
-        API.editCue(data)
-            .then(res => {
-                console.log(res)
-                this.getCueSheet()
-                this.modalToggle("editCueModal")
-            })
+       API.editCue(data)
+       .then(res=>{
+           console.log(res)
+           this.getCueSheet()
+           this.modalToggle("editCueModal")
+       })
     }
 
     changeEditMode = () => {
@@ -339,35 +314,37 @@ class NewCue extends Component {
     render() {
         const { classes } = this.props;
         return (
-            <Fragment >
-    
+            <div  >
+                  <Grid container spacing={24}>
+                    <Grid item xs={12} >
+                         <Paper className={classes.paper}>xs=12</Paper>
+                          Test
+                     </Grid>
+                </Grid>
+                {/* We can have a condition to display a new text if it is new or just Cue sheet
+                 if its existing */}
+                {/* <Container> */}
+                    <Row>
+                        <h1> New Cue Sheet </h1>
+                    </Row>
+                {/* </Container> */}
+
+
                 <ProductionCard productionTitle={this.state.cueSheet.productionTitle}
                     productionNumber={this.state.cueSheet.id}
                     productionYear={this.state.cueSheet.productionYear}
                     productionDuration={this.state.cueSheet.productionDuration}
-                    musicDuration={this.state.cueSheet.musicDuration} >
-                    <FileUpload getCuesCallBack={this.getCueSheet} cueSheetId={this.state.cueSheet.id}/>
+                    totalMusicalDuration={this.state.cueSheet.musicDuration} />
 
-                   
-                    </ProductionCard>
-                    <Container>
-                        <Grid container className={classes.section}>
-                            <Grid item >
-                            <Typography variant="h5">Cue Information</Typography>
-                            <Typography variant="subtitle1">
-                            Add all music/cues used in this production and shareholder information.
-                            </Typography>
-                            <Typography variant="subtitle2">
-                            You can either upload the final production or add cues manually. 
-                            Uploading your audio file will automatically generate the cue information
-                            </Typography>
-                            </Grid>
-                         
-                            <Grid item xs={12} sm={6} className={classes.section}>
-                             Audio File upload placeholder
-                            </Grid>
-                            <Grid item xs={12} sm={6} className={classes.section}>
-                            <ModalEx
+                <hr></hr>
+              
+              
+
+                <Container>
+                    <Row>
+                        <FileUpload getCuesCallBack={this.getCueSheet} cueSheetId={this.state.cueSheet.id}/>
+                       
+                        <ModalEx
                             dataId={this.props.match.params.id}
                             buttonName={"Add new Cue"}
                             toggle={this.modalToggle}
@@ -377,10 +354,7 @@ class NewCue extends Component {
                             cancelButton={"Cancel"}
                             handleSubmit={this.handleCueAdd}
                             modalHeader={"Add a New Cue"}
-                            buttonColor={"primary"}
-                            variant={'extendedFab'}
-                            style={{padding:'10px'}}
-                            usageValue={this.state.usage}>
+                            buttonColor={"primary"}>
                             <form>
                                 <SongsAdd handleChange={this.handleInputChange} />
                                 <CueAdd handleChange={this.handleInputChange} />
@@ -388,21 +362,19 @@ class NewCue extends Component {
 
 
                         </ModalEx>
-                            </Grid>
-                        </Grid>
-                   
-                    </Container>
-                   
 
-                    {/* <Container>
+
+                    </Row>
+                </Container>
+
+                <hr></hr>
+                <Container>
                     <Button color="primary" data-id={this.props.match.params.id}>  Add new cue</Button>
                     <PrimaryButton name="Test"> Test Primary</PrimaryButton>
                     <SecondaryButton name="Test Second"></SecondaryButton>
-                </Container> */}
-
-                 {this.state.cues.map(cues => (
-                    
-                        <CueCards
+                </Container>
+                {this.state.cues.map(cues => (
+                    <CueCard
                         key={cues.id}
                         title={cues.song.songTitle}
                         duration={cues.duration}
@@ -412,8 +384,9 @@ class NewCue extends Component {
                         deleteCue={this.deleteCue}
                         editCue= {this.editCue}
                         songId={cues.song.id}
-                        >
-                           {/*  DeleteCue Modal  */}
+
+                    >
+                     {/*  DeleteCue Modal  */}
                      <ModalNb
                             dataId={cues.id}
                             toggle={this.modalToggle}
@@ -455,22 +428,71 @@ class NewCue extends Component {
                             </form>                  
   
                         </ModalNb>
-                        <ShareholdersTable
-                        shareholders={cues.song.shareholders && cues.song.shareholders}
-                        deleteShareholder={this.deleteShareholder}
-                        songId={cues.songId}
-                        confirmModal={this.state.confirmModal}
-                        confirmModalToggle={this.confirmModalToggle}
-                        handleShareholderDelete={this.handleShareholderDelete}
-                        >
-                        </ShareholdersTable>
 
-                     
-                        <Grid container justify='center' className={classes.shareholderAdd} >
-                        <Grid item >
+
+                        TESTING IN LINE EDIT <br></br>
+                        {/* if isediting is true then the input text will be displayed with the default value
+                        if not then the other option */}
+                        {this.state.isEditing ?
+                            this.renderEditView() : this.renderDefaultView()
+
+                        }
+
+
+
+                        {/* shareholder information  */}
+                        <table className="table">
+                            <thead className="thead-dark">
+                                <tr>
+                                    <th scope="col">Shareholder Name</th>
+                                    <th scope="col">Role</th>
+                                    <th scope="col">Share %</th>
+                                    <th scope="col">Affiliation</th>
+                                    <th scope="col">Action</th>
+
+                                </tr>
+                            </thead>
+                            <tbody className="cueInfo">
+                                {cues.song.shareholders && cues.song.shareholders.map(shareholders => (
+                                    <TableRow key={shareholders.id}>
+
+                                        <td> {shareholders.shareholderName}</td>
+                                        <td> {shareholders.shareholderSongs.role}</td>
+                                        <td> {shareholders.shareholderSongs.shares}</td>
+                                        <td> {shareholders.affiliation} </td>
+                                        <td>
+
+                                            <section>
+                                                <Button color="success" onClick={() => { this.deleteShareholder(shareholders.id, cues.songId) }} >delete</Button>
+                                                <Modal isOpen={this.state.confirmModal} toggle={this.confirmModalToggle} className={this.props.className}>
+                                                    <ModalHeader toggle={this.confirmModalToggle}>Delete Shareholder</ModalHeader>
+                                                    <ModalBody>
+                                                        Are you sure you want to remove this shareholder?
+                                                         </ModalBody>
+                                                    <ModalFooter>
+                                                        <Button color="primary" onClick={this.handleShareholderDelete}>Yes</Button>{' '}
+                                                        <Button color="secondary" onClick={this.confirmModalToggle}>Cancel</Button>
+                                                    </ModalFooter>
+                                                </Modal>
+
+                                            </section>
+
+                                            {/* <Button> edit</Button> */}
+                                        </td>
+
+
+                                    </TableRow>
+                                ))}
+
+                            </tbody>
+
+                        </table>
+
+                        {/* modal */}
+
                         <ModalEx
                             dataId={this.props.match.params.id}
-                            buttonName={"Add Shareholders"}
+                            buttonName={"Add a shareholder"}
                             toggle={() => { this.addShareholder(cues.id, cues.songId) }}
                             modal={this.state.modal}
                             modalStateName={"modal"}
@@ -478,24 +500,35 @@ class NewCue extends Component {
                             cancelButton={"Cancel"}
                             handleSubmit={this.handleAddShareholder}
                             modalHeader={"Add a shareholder"}
-                            buttonColor={"primary"}
-                            variant={'outlined'}
-                            style={{padding:'20px'}}>
+                            buttonColor={"primary"}>
                             <ShareholderForm
                                 handleChange={this.handleInputChange}
                             ></ShareholderForm>
                         </ModalEx>
-    
-                       
-                        </Grid>
-                        </Grid>
-                        
 
-                        </CueCards>
-                   
+                        {/* <section>
+                            <Button onClick={() => { this.addShareholder(cues.id, cues.songId) }}> Add a shareholder</Button>
+
+                            <Modal isOpen={this.state.modal} toggle={() => { this.modalToggle("modal") }} className={this.props.className}>
+                                <ModalHeader toggle={() => { this.modalToggle("modal") }}>Add Shareholder</ModalHeader>
+                                <ModalBody>
+                                    <ShareholderForm
+
+
+                                        handleChange={this.handleInputChange}
+                                    ></ShareholderForm>
+                                </ModalBody>
+                                <ModalFooter>
+                                    <Button color="primary" onClick={this.handleAddShareholder}>Submit</Button>{' '}
+                                    <Button color="secondary" onClick={() => { this.modalToggle("modal") }}>Cancel</Button>
+                                </ModalFooter>
+                            </Modal>
+                        </section> */}
+
+                    </CueCard>
                 ))}
 
-            </Fragment>
+            </div>
 
         )
     }

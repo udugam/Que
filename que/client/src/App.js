@@ -1,5 +1,6 @@
 import React from 'react';
 import {Security, SecureRoute, ImplicitCallback} from '@okta/okta-react';
+import CssBaseline from "@material-ui/core/CssBaseline";
 import './App.css';
 import {BrowserRouter as Router, Route} from 'react-router-dom'
 import Home from './pages/Home';
@@ -17,12 +18,14 @@ function onAuthRequired({history}) {
 const App = () => (
     <Router>
         <div>
+            <CssBaseline/>
             <Security
                 issuer="https://dev-287479.oktapreview.com/oauth2/default"
                 client_id="0oagzd7j0ikYq5pVJ0h7"
                 redirect_uri={window.location.origin + '/implicit/callback'}
                 onAuthRequired={onAuthRequired}
             >
+            {/* SecureRoute -- instead of Route */}
                 <Navbar/>
                 <Route exact path="/" component={Home}/>
                 <SecureRoute exact path="/cuesheet" component={CueSheet}/>

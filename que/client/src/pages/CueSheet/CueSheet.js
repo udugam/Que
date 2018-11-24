@@ -40,7 +40,7 @@ class CueSheet extends Component{
     };
 
     goToCue = id =>{
-        console.log(id)
+        // console.log(id)
         this.setState({goToCueId: id})
         this.setState({goToCueSheet: true})
     }
