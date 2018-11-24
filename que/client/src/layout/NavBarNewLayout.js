@@ -131,6 +131,9 @@ class MenuAppBar extends React.Component {
                         <Link to="/cuesheet">
                             <Button color="inherit">Cue Sheet</Button>
                         </Link>
+                        <Link to="/songLibrary">
+                            <Button color="inherit">Song Library</Button>
+                        </Link>
 
                         {LoginButton}
                         {/* {auth && (
