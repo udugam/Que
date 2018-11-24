@@ -27,17 +27,18 @@ const App = () => (
             >
             {/* SecureRoute -- instead of Route */}
                 <Navbar/>
-                <SecureRoute exact path="/" component={Home}/>
+                <Route exact path="/" component={Home}/>
                 <SecureRoute exact path="/cuesheet" component={CueSheet}/>
                 <SecureRoute exact path="/newheader" component={NewHeader}/>
                 <SecureRoute exact path="/cuesheet/:id" component={CueSheetDetail}/>
-                <SecureRoute
+                <SecureRoute exact path="/songLibrary" component={SongLibrary}/>
+                <Route
                     path="/login"
                     render={() => (
                         <Login baseUrl="https://dev-287479.oktapreview.com"/>
                     )}
                 />
-                <SecureRoute path="/implicit/callback" component={ImplicitCallback}/>
+                <Route path="/implicit/callback" component={ImplicitCallback}/>
             </Security>
 
         </div>
