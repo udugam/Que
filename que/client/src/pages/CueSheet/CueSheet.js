@@ -45,21 +45,22 @@ class CueSheet extends Component{
     };
 
     goToCue = id =>{
-        console.log(id)
+        // console.log(id)
         this.setState({goToCueId: id})
         this.setState({goToCueSheet: true})
     }
     getDownloadInfo = id => {
         API.getAllInfo(id)
             .then(result => {
-                console.log(result.data.first)
-                console.log(result.data.second)
+                // console.log(result.data.first)
+                // console.log(result.data.second)
 
                 var data = [];
                 
                 for(var i = 0; i < result.data.first.length; i++){
                     for(var j = 0; j < result.data.first[i].cues.length; j++){
                         var index = result.data.second.findIndex(x => x.id === result.data.first[i].cues[j].songId)
+                        console.log(index)
                         for(var k = 0; k < result.data.second[index].shareholders.length; k++){
                             var inputing = {
                                 productionTitle: result.data.first[i].productionTitle,
