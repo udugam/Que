@@ -67,6 +67,22 @@ module.exports = {
             console.log(deleted)
             res.json(deleted)
         })
+    },
+    getInfo: function(req, res){
+        console.log(req.params.email)
+        db.shareholderSongs.findAll({
+            include: [{
+                all: true,
+                include: [{ all: true,
+                include:[{all:true}] }]
+            }]
+        }).then(shareData => {
+            db.songs.findAll()
+                .then(songData => {
+                    res.json([shareData, songData])
+                })
+        })
+
     }
 }
 

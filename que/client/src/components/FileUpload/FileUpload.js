@@ -82,7 +82,7 @@ class FileUpload extends Component {
         axios.post("/api/upload", data, {
             onUploadProgress: ProgressEvent => {
                 this.setState({
-                    loaded: (ProgressEvent.loaded / ProgressEvent.total * 100),
+                    loaded: Math.ceil((ProgressEvent.loaded / ProgressEvent.total*100)),
                 })
             },
         })

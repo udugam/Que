@@ -1,10 +1,8 @@
 import React, {Component} from 'react'
 import "./CueSheet.css"
 import NewHeader from "../NewHeader"
-import CueSheetDetail from '../CueSheetDetail';
 import API from "../../utils/API"
 import {BrowserRouter as Router, Route, Redirect} from 'react-router-dom'
-import {FormBtn, Input} from '../../components/Form'
 import {Row} from "../../components/Table"
 import downloadCVS from 'download-csv';
 
@@ -17,8 +15,6 @@ class CueSheet extends Component{
         goToCueSheet: false,
         goToCueId: 0,
         email: JSON.parse(localStorage.getItem('okta-token-storage')).idToken.claims.email,
-        headers: [], 
-        rows: [],
         data: []
     }
  
@@ -31,7 +27,6 @@ class CueSheet extends Component{
         API.getCues(this.state.email)
             .then(result => {
                 this.setState({cueSheet: result.data}, () => {
-                    console.log(this.state.cueSheet)
                 })
             })
             .catch(err => console.log(err));
@@ -52,38 +47,46 @@ class CueSheet extends Component{
     getDownloadInfo = id => {
         API.getAllInfo(id)
             .then(result => {
-                // console.log(result.data.first)
-                // console.log(result.data.second)
-
+                console.log(result.data)
                 var data = [];
-                
-                for(var i = 0; i < result.data.first.length; i++){
-                    for(var j = 0; j < result.data.first[i].cues.length; j++){
-                        var index = result.data.second.findIndex(x => x.id === result.data.first[i].cues[j].songId)
-                        console.log(index)
-                        for(var k = 0; k < result.data.second[index].shareholders.length; k++){
-                            var inputing = {
-                                productionTitle: result.data.first[i].productionTitle,
-                                type: result.data.first[i].type,
-                                productionYear: result.data.first[i].productionYear,
-                                productionDuration: result.data.first[i].productionDuration,
-                                musicDuration: result.data.first[i].musicDuration,
-                                cueDuration: result.data.first[i].cues[j].duration,
-                                usage: result.data.first[i].cues[j].usage,
-                                songTitle: result.data.second[index].songTitle,
-                                fingerprintId: result.data.second[index].fingerprintId,
-                                artist: result.data.second[index].artist,
-                                affiliation: result.data.second[index].shareholders[k].affiliation,
-                                ipiNumber: result.data.second[index].shareholders[k].ipiNumber,
-                                shareholderName: result.data.second[index].shareholders[k].shareholderName,
-                                role: result.data.second[index].shareholders[k].shareholderSongs.role,
-                                shares: result.data.second[index].shareholders[k].shareholderSongs.shares,
+                for(var i = 0; i < result.data.length; i++){
+                    if(result.data[i].song.shareholders.length){
+                        for(var j = 0; j < result.data[i].song.shareholders.length; j++){
+                            var input = {
+                                productionTitle: result.data[i].cueSheet.productionTitle,
+                                type: result.data[i].cueSheet.type,
+                                productionYear: result.data[i].cueSheet.productionYear,
+                                productionDuration: result.data[i].cueSheet.productionDuration,
+                                musicDuration: result.data[i].cueSheet.musicDuration,
+                                cueDuration: result.data[i].duration,
+                                usage: result.data[i].usage,
+                                songTitle: result.data[i].song.songTitle,
+                                fingerprintId: result.data[i].song.fingerprintId,
+                                artist: result.data[i].song.artist,
+                                affiliation: result.data[i].song.shareholders[j].affiliation,
+                                ipiNumber: result.data[i].song.shareholders[j].ipiNumber,
+                                shareholderName: result.data[i].song.shareholders[j].shareholderName,
+                                role: result.data[i].song.shareholders[j].shareholderSongs.role,
+                                shares: result.data[i].song.shareholders[j].shareholderSongs.shares
                             }
-                            data.push(inputing)
+                            data.push(input)
                         }
+                    }else{
+                        var inputLess = {
+                            productionTitle: result.data[i].cueSheet.productionTitle,
+                            type: result.data[i].cueSheet.type,
+                            productionYear: result.data[i].cueSheet.productionYear,
+                            productionDuration: result.data[i].cueSheet.productionDuration,
+                            musicDuration: result.data[i].cueSheet.musicDuration,
+                            cueDuration: result.data[i].duration,
+                            usage: result.data[i].usage,
+                            songTitle: result.data[i].song.songTitle,
+                            fingerprintId: result.data[i].song.fingerprintId,
+                            artist: result.data[i].song.artist
+                        }
+                        data.push(inputLess)
                     }
                 }
-
                 this.setState({data: data})
             })
     }
@@ -94,7 +97,6 @@ class CueSheet extends Component{
             if(this.state.data[i].productionTitle === name)
                 sendingData.push(this.state.data[i])
         }
-        console.log(sendingData)
         if(sendingData.length === 0){
             alert("You At Least One Cue")
         }else{
@@ -110,19 +112,9 @@ class CueSheet extends Component{
         return(
             <Router>
                 <div className="container">
-                    <button onClick={() => this.getDownloadInfo(this.state.email)}>
-                    {/* <CsvCreator
-                            filename='quesheet_csv'
-                            headers={this.state.headers}
-                            rows={this.state.rows}
-                        >
-                            <h6>Download CSV</h6>
-                        </CsvCreator> */}
-                    </button>
-                    
                     <button className="btn btn-secondary float-right">
                         <a href="/newHeader" className="newHeaderBtn">
-                            <h6>New Cue Sheets</h6>
+                            <h6>Create Cue Sheets</h6>
                         </a>
                         <Route exact path="/newHeader" component={NewHeader}/>
                     </button>

@@ -34,7 +34,6 @@ export default withAuth(
                     <div>
                         <Link to="/cuesheet"><button>Create new Cuesheet!</button></Link>
                     </div>
-            <Sendemail/>
                 </div>
             ) : (
                 <div>

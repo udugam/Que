@@ -6,11 +6,11 @@ module.exports = function(sequelize, DataTypes) {
     });
 
     shareholderSongs.associate = function(models) {
-        shareholderSongs.belongsTo(models.songs, {
-            foreignKey: {
-              allowNull: false
-            }
-          })
+      shareholderSongs.belongsTo(models.songs,{
+                 foreignKey: {
+                   allowNull: false
+                 }
+               })
     }
 
    

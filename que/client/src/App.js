@@ -7,6 +7,7 @@ import Home from './pages/Home';
 import CueSheet from './pages/CueSheet';
 import NewHeader from './pages/NewHeader';
 import CueSheetDetail from './pages/CueSheetDetail';
+import SongLibrary from './pages/SongLibrary'
 import Login from './components/auth/Login';
 import Navbar from './layout/Navbar';
 
@@ -26,17 +27,17 @@ const App = () => (
             >
             {/* SecureRoute -- instead of Route */}
                 <Navbar/>
-                <Route exact path="/" component={Home}/>
-                <Route exact path="/cuesheet" component={CueSheet}/>
-                <Route exact path="/newheader" component={NewHeader}/>
-                <Route exact path="/cuesheet/:id" component={CueSheetDetail}/>
-                <Route
+                <SecureRoute exact path="/" component={Home}/>
+                <SecureRoute exact path="/cuesheet" component={CueSheet}/>
+                <SecureRoute exact path="/newheader" component={NewHeader}/>
+                <SecureRoute exact path="/cuesheet/:id" component={CueSheetDetail}/>
+                <SecureRoute
                     path="/login"
                     render={() => (
                         <Login baseUrl="https://dev-287479.oktapreview.com"/>
                     )}
                 />
-                <Route path="/implicit/callback" component={ImplicitCallback}/>
+                <SecureRoute path="/implicit/callback" component={ImplicitCallback}/>
             </Security>
 
         </div>

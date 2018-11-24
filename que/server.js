@@ -6,6 +6,10 @@ const PORT = process.env.PORT || 3001;
 
 const fileUpload = require('express-fileupload')
 
+//importing Sentry, which which monitor and keep track of errors for ease of debugging
+const Sentry = require('@sentry/node');
+Sentry.init({ dsn: 'https://9d3ebafc5e744e568f2690fe34d0e051@sentry.io/1319258' });
+
 var db = require("./models");
 // Define middleware here
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -16,7 +20,7 @@ if (process.env.NODE_ENV === "production") {
     app.use(express.static("client/build"));
 }
 
-// var routes = require("./controllers/burgers_controller.js");
+// var routes = require("./controllers/burgers_controller.js";
 // Add routes, both API and view
 app.use(routes);
 
