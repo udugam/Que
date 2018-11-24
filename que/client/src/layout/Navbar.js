@@ -83,6 +83,7 @@ export default withAuth(
                                         <Link className="nav-link" to="/">
                                             Home
                                     </Link>
+<<<<<<< HEAD
                                     </li>
                                     <li className="nav-item">
                                         <Link className="nav-link" to="/cuesheet">
@@ -92,6 +93,22 @@ export default withAuth(
                                     <li className="nav-item">
                                         {LoginButton}
                                     </li>
+=======
+                                </li>
+                                <li className="nav-item">
+                                    <Link className="nav-link" to="/cuesheet">
+                                        Create CueSheet
+                                    </Link>
+                                </li>
+                                <li className="nav-item">
+                                    <Link className="nav-link" to="/songLibrary">
+                                        Songs Library
+                                    </Link>
+                                </li>
+                                <li className="nav-item">
+                                    {LoginButton}
+                                </li>
+>>>>>>> 4b67a97d6f122fdd25ef27294c0fd88e03c131e5
 
                                 </ul>
                             </div>
