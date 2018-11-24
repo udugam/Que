@@ -52,7 +52,7 @@ const styles = theme => ({
         margin: theme.spacing.unit,
     },
     input: {
-        display: 'none',
+        // display: 'none',
     },
     extendedIcon: {
         marginLeft: theme.spacing.unit,
@@ -96,6 +96,12 @@ class FileUpload extends Component {
             })
     }
 
+    testButton =()=>{
+        console.log("working")
+        console.log(document.getElementById('fileUpload'))
+
+    }
+
     render() {
         const { classes } = this.props;
         return (
@@ -123,34 +129,28 @@ class FileUpload extends Component {
 
                     <FormLabel component="legend">Audio File Upload</FormLabel>
                     <FormGroup>
-                        <input
-                            accept="image/*"
-                            id="contained-button-file"
-                            multiple
-                            type="file"
-                            className={classes.input}
-                        />
-                        <label htmlFor="contained-button-file">
+                      
+                        <label htmlFor="fileUpload">
                             <Button
                                 variant="extendedFab"
                                 component="span"
                                 className={classes.button}
-                                color='primary' >
+                                color='primary' 
+                                onClick={this.testButton}>
                                 Upload
                                 <Icon className={classes.extendedIcon}>cloud_upload</Icon>
-
+                                
+                                    
                             </Button>
                         </label>
-                        <Button
-                                variant="extendedFab"
-                                component="span"
-                                className={classes.button}
-                                color='primary' >
-                                Upload
-                                <Icon className={classes.extendedIcon}>cloud_upload</Icon>
-
-                            </Button>
-
+                        <input
+                            accept="image/*"
+                            id="fileUpload"
+                            multiple
+                            type="file"
+                            className={classes.input}
+                        />
+                      
                     </FormGroup>
                     <FormHelperText>
                         Upload your audio file here to automatically generate your cues using our song recognition
