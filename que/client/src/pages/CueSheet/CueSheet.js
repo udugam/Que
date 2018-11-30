@@ -1,10 +1,26 @@
 import React, {Component} from 'react'
+import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
 import "./CueSheet.css"
 import NewHeader from "../NewHeader"
 import API from "../../utils/API"
 import {BrowserRouter as Router, Route, Redirect} from 'react-router-dom'
-import {Row} from "../../components/Table"
 import downloadCVS from 'download-csv';
+import CueTable from '../../components/Tables/CueTable'
+import NavigationIcon from '@material-ui/icons/Navigation';
+import Button from '@material-ui/core/Button';
+
+const styles = theme => ({
+    button: {
+        margin: theme.spacing.unit,
+        float: "right"
+    },
+    extendedIcon: {
+      marginRight: theme.spacing.unit,
+    },
+  });
+
+
 
 
 class CueSheet extends Component{
@@ -105,6 +121,8 @@ class CueSheet extends Component{
     }    
 
     render(){
+        const { classes } = this.props;
+
         if(this.state.goToCueSheet === true){
             return <Redirect to={`/cuesheet/${this.state.goToCueId}`}/>
         }
@@ -112,68 +130,27 @@ class CueSheet extends Component{
         return(
             <Router>
                 <div className="container">
-                    <button className="btn btn-secondary float-right">
+                    <Button color="primary" variant="extendedFab" aria-label="Delete" className={classes.button}>
                         <a href="/newHeader" className="newHeaderBtn">
-                            <h6>Create Cue Sheets</h6>
+                            Create Cue Sheets
                         </a>
                         <Route exact path="/newHeader" component={NewHeader}/>
-                    </button>
+                    </Button>
                     <h3>Search Cue</h3>
-                    {/* <form>
-                        <Input
-                            value={this.state.search}
-                            onChange={this.handleInputChange}
-                            name="search"
-                            placeholder="search"
-                        />
-                        <Input
-                            value={this.state.search}
-                            onChange={this.handleInputChange}
-                            name="search"
-                            placeholder="search"
-                        />
-                        <FormBtn
-                            onClick={this.handleFormSubmit}    
-                        >
-                            SUBMIT
-                        </FormBtn>
-
-                    </form> */}
-                
-                    <table className="table">
-                        <thead className="thead-dark">
-                            <tr>
-                                <th scope="col">Production Title</th>
-                                <th scope="col">Type</th>
-                                <th scope="col">Production Duration</th>
-                                <th scope="col">Music Duration</th>
-                                <th scope="col">Edit Cue</th>
-                                <th scope="col">Download CSV</th>
-                            </tr>
-                        </thead>
-                        <tbody className="cueInfo">
-                            {/* Cue info */}
-                            {this.state.cueSheet.map(cues => {
-                                return(
-                                    <Row 
-                                        key={cues.id}
-                                        productionId={cues.id}
-                                        productionTitle={cues.productionTitle}
-                                        type={cues.type}
-                                        productionDuration={cues.productionDuration}
-                                        musicDuration={cues.musicDuration}
-                                        goToCue={this.goToCue}
-                                        downloadFile={this.downloadCSVFile}
-                                    />
-                                )
-                            })}
-                            
-                        </tbody>
-                    </table>
+                    <CueTable
+                        cueSheet={this.state.cueSheet}
+                        goToCue={this.goToCue}
+                        downloadFile={this.downloadCSVFile}
+                    />
                 </div>
+                
             </Router>
         )
     }
 }
 
-export default CueSheet
+CueSheet.propTypes = {
+    classes: PropTypes.object.isRequired,
+};
+
+export default withStyles(styles)(CueSheet);
