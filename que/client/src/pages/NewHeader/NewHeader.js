@@ -1,12 +1,23 @@
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
 import CueSheet from '../CueSheet';
-import CueSheetDetail from '../CueSheetDetail';
 import {BrowserRouter as Router, Route, Redirect} from 'react-router-dom';
-import {FormBtn, Input, Select} from '../../components/Form'
+import {Input, Select} from '../../components/Form'
 import API from '../../utils/API';
 
+const styles = theme => ({
+    button: {
+      margin: theme.spacing.unit,
+    },
+    input: {
+      display: 'none',
+    },
+  });
 
 class NewHeader extends Component {
+
     state = {
         id: 0,
         productionTitle: "",
@@ -47,6 +58,7 @@ class NewHeader extends Component {
     };
 
     render() {
+        const { classes } = this.props;
         if(this.state.nextPage === true){
             return <Redirect to={`/cuesheet/${this.state.id}`}/>
         }
@@ -76,16 +88,18 @@ class NewHeader extends Component {
                             name="productionDuration"
                             placeholder="Production Duration"
                         />
-                        <FormBtn
+                        <Button
+                            color="primary"
+                            className={classes.button}
                             onClick={this.handleFormSubmit}    
                         >
                             SUBMIT
-                        </FormBtn>
-                        <button className="btn btn-secondary float-right">
+                        </Button>
+                        <Button color="secondary" className={classes.button}>
                             <a href="/cueSheet">
                                 Cancel
                             </a>
-                        </button>
+                        </Button>
                         <Route exact path="/cueSheet" component={CueSheet}/>
                     </form>
                     {this.state.missingInfo ? (
@@ -99,4 +113,8 @@ class NewHeader extends Component {
     } 
 }
 
-export default NewHeader
+NewHeader.propTypes = {
+    classes: PropTypes.object.isRequired,
+  };
+
+export default withStyles(styles)(NewHeader);
