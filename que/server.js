@@ -7,8 +7,8 @@ const PORT = process.env.PORT || 3001;
 const fileUpload = require('express-fileupload')
 
 //importing Sentry, which which monitor and keep track of errors for ease of debugging
-const Sentry = require('@sentry/node');
-Sentry.init({ dsn: 'https://9d3ebafc5e744e568f2690fe34d0e051@sentry.io/1319258' });
+// const Sentry = require('@sentry/node');
+// Sentry.init({ dsn: 'https://9d3ebafc5e744e568f2690fe34d0e051@sentry.io/1319258' });
 
 var db = require("./models");
 // Define middleware here

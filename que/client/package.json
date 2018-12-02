@@ -4,6 +4,8 @@
   "private": true,
   "proxy": "http://142.93.159.65:3001/",
   "dependencies": {
+    "@material-ui/core": "^3.5.1",
+    "@material-ui/icons": "^3.0.1",
     "@okta/okta-react": "^1.1.4",
     "@okta/okta-signin-widget": "^2.13.0",
     "axios": "^0.18.0",

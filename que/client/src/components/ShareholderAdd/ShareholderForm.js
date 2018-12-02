@@ -1,8 +1,14 @@
 import React, { Component } from "react";
 import { Col, Row, Container } from "../Grid";
-import { Button, Form, FormGroup, Label, Input, FormText, Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap'
+import { Form } from 'reactstrap'
+import {TextField, MenuItem} from '@material-ui/core'
+import { withStyles } from '@material-ui/core/styles';
 
+const styles = theme => ({
+  
+});
 
+const roles = ['Author', 'Composer', 'Composer/Author', 'Publisher', 'Sub-Publisher']
 
 class ShareholderForm extends Component {
     constructor(props) {
@@ -17,6 +23,7 @@ class ShareholderForm extends Component {
       
  
     render() {
+        const {shareholderValue, handleChange, affiliationValue, ipiValue, shareValue, role} = this.props
         return (
             <div>
 
@@ -26,46 +33,75 @@ class ShareholderForm extends Component {
                             {/* shareholder name, role, affiliation, share %,  */}
                             {/* v2 - allow users to search for existing shareholders */}
 
-                            <div>
-                                <p>Search or Add a new Shareholder</p>
-                                <Form>
-                                    <Row>
-                                        <FormGroup tag="fieldset">
-                                            <Col size="md-4">
-                                                <FormGroup check>
-                                                    <Label check>
-                                                        <Input type="radio" name="radio1" />{' '}
-                                                        Shareholder Name
-                                             </Label>
-                                                </FormGroup>
-
-                                            </Col>
-                                            <Col size="md-4">
-                                                <FormGroup check>
-                                                    <Label check>
-                                                        <Input type="radio" name="radio1" />{' '}
-                                                        IPI Number
-                                                    </Label>
-                                                </FormGroup>
-                                            </Col>
-                                        </FormGroup>
-                                    </Row>
-
-                                    <FormGroup>
-                                        {/* <Label for="exampleEmail">Search for a shareholder</Label> */}
-                                        <Input type="text" name="shareholderName" id="shareholderName" placeholder="Shareholder Name/IPI Number" />
-                                        <button type="submit"><i className="fa fa-search"></i></button>
-                                    </FormGroup>
-                                </Form>
-
-
-                            </div>
                             <Form>
-                                <FormGroup>
-                                    <Label for="exampleEmail">Shareholder Name</Label>
-                                    <Input onChange={this.props.handleChange} value={this.props.shareholderValue} type="text" name="shareholderName" id="shareholderName" placeholder="Shareholder Name" />
-                                </FormGroup>
-                                <FormGroup>
+                                {/* might have to add the name attribute to update state - confirm */}
+                            <TextField
+                                name="shareholderName" 
+                                id="shareholderName"
+                                required
+                                label="Shareholder Name"
+                                value={shareholderValue}
+                                onChange={handleChange}
+                                margin="normal"
+                                fullWidth
+                                // variant="outlined"
+                                />
+                                <br/>
+                                <TextField
+                                // required
+                                id="role"
+                                name="role"
+                                label="Role"
+                                select
+                                onChange={handleChange}
+                                margin="normal"
+                                fullWidth
+                                helperText="Please select a Role"
+                                value={role}
+                                // variant="outlined"
+                                > {roles.map(role =>(
+                                    <MenuItem key={role} value={role}>{role} </MenuItem>
+                                ))}
+                                </TextField>
+                                <br/>
+                                <TextField
+                                required
+                                label="Affiliation"
+                                value={affiliationValue}
+                                onChange={handleChange}
+                                margin="normal"
+                                fullWidth
+                                name="affiliation" 
+                                id="affiliation"
+                                // variant="outlined"
+                                />
+                                      <br/>
+                                <TextField
+                                label="IPI Number (optional)"
+                                value={ipiValue}
+                                onChange={handleChange}
+                                margin="normal"
+                                fullWidth
+                                name="ipiNumber" 
+                                id="ipiNumber"
+                                // variant="outlined"
+                                />
+                                      <br/>
+                                <TextField
+                                required
+                                label="Share Percent"
+                                value={shareValue}
+                                onChange={handleChange}
+                                margin="normal"
+                                type="number"
+                                fullWidth
+                                name="sharePercent" 
+                                id="sharePercent"
+                                // variant="outlined"
+                                />
+
+                              
+                                {/* <FormGroup>
                                     <Label for="exampleSelect">Role</Label>
                                     <Input onChange={this.props.handleChange}  type="select" name="role" id="role">
                                         <option value="default" > Select One</option>
@@ -75,19 +111,9 @@ class ShareholderForm extends Component {
                                         <option value="Publisher">Publisher</option>
                                         <option value="Sub-Publisher">Sub-Publisher</option>
                                     </Input>
-                                </FormGroup>
-                                <FormGroup>
-                                    <Label for="exampleEmail">Affiliation</Label>
-                                    <Input onChange={this.props.handleChange} value={this.props.affiliationValue}  type="text" name="affiliation" id="affiliation" placeholder="Affiliation" />
-                                </FormGroup>
-                                <FormGroup>
-                                    <Label for="exampleEmail">IPI Number (optional)</Label>
-                                    <Input onChange={this.props.handleChange} value={this.props.ipiValue} type="text" name="ipiNumber" id="ipiNumber" placeholder="Add IPI Number (optional)" />
-                                </FormGroup>
-                                <FormGroup>
-                                    <Label for="exampleEmail">Share %</Label>
-                                    <Input onChange={this.props.handleChange} value={this.props.shareValue}  type="number" name="sharePercent" id="sharePercent" placeholder="Add Share Percent" />
-                                </FormGroup>
+                                </FormGroup> */}
+                              
+                              
                             </Form>
 
                         </Col>
@@ -100,4 +126,4 @@ class ShareholderForm extends Component {
     }
 }
 
-export default ShareholderForm
+export default withStyles(styles)(ShareholderForm)
