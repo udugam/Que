@@ -13,12 +13,20 @@ class SongAdd extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            songTitle:'',
+            performingArtist:''
 
         };
     };
+    handleChange = name => event => {
+        this.props.handleSongAdd(name, event.target.value)
+        this.setState({
+            [name]: event.target.value,
+        });
+    };
 
     render() {
-        const { handleChange,artistNameValue,songTitleValue } = this.props
+        const { songTitle, artistName } = this.props
         return (
             <Fragment>
                  <TextField
@@ -26,8 +34,8 @@ class SongAdd extends Component {
                     id="songTitle"
                     required
                     label="Song/Cue Title"
-                    value={songTitleValue}
-                    onChange={handleChange}
+                    value={songTitle}
+                    onChange={this.handleChange('songTitle')}
                     margin="normal"
                     fullWidth
                 // variant="outlined"
@@ -37,8 +45,8 @@ class SongAdd extends Component {
                     name="performingArtist"
                     id="performingArtist"
                     label="Performing Artist (optional)"
-                    value={artistNameValue}
-                    onChange={handleChange}
+                    value={artistName}
+                    onChange={this.handleChange('artistName')}
                     margin="normal"
                     fullWidth
                 // variant="outlined"

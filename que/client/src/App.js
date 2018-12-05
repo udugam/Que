@@ -30,7 +30,7 @@ const App = () => (
                 <Route exact path="/" component={Home}/>
                 <SecureRoute exact path="/cuesheet" component={CueSheet}/>
                 <SecureRoute exact path="/newheader" component={NewHeader}/>
-                <SecureRoute exact path="/cuesheet/:id" component={CueSheetDetail}/>
+                <Route exact path="/cuesheet/:id" component={CueSheetDetail}/>
                 <SecureRoute exact path="/songLibrary" component={SongLibrary}/>
                 <Route
                     path="/login"
