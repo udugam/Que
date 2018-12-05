@@ -1,30 +1,122 @@
 import React, {Component} from 'react'
+import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
 import "./CueSheet.css"
 import NewHeader from "../NewHeader"
 import API from "../../utils/API"
 import {BrowserRouter as Router, Route, Redirect} from 'react-router-dom'
-import {Row} from "../../components/Table"
 import downloadCVS from 'download-csv';
+import CueTable from '../../components/Tables/CueTable'
+import Button from '@material-ui/core/Button';
+import Modal from '@material-ui/core/Modal';
+import TextField from '@material-ui/core/TextField';
+import Typography from '@material-ui/core/Typography';
+
+const styles = theme => ({
+    extendedIcon: {
+      marginRight: theme.spacing.unit,
+    },
+    createBtn: {
+        margin: theme.spacing.unit,
+        float: "right",
+        backgroundColor: '#0c0d2d',
+        color: 'white'
+    },
+    button: {
+        margin: theme.spacing.unit,
+        backgroundColor: '#0c0d2d',
+        color: 'white'
+    },
+    input: {
+      display: 'none',
+    },
+    textField: {
+        marginLeft: theme.spacing.unit,
+        marginRight: theme.spacing.unit,
+        width: '95%',
+    },
+    paper: {
+        width: '50%',
+        backgroundColor: theme.palette.background.paper,
+        boxShadow: theme.shadows[5],
+        padding: theme.spacing.unit * 4,
+        margin: 'auto'
+      },
+  });
+  const type = [
+    {
+        value: 'Movie',
+        label: 'Movie',
+    },
+    {
+        value: 'Series',
+        label: 'Series',
+    },
+    {
+        value: 'Podcast',
+        label: 'Podcast',
+    },
+    {
+        value: 'Radio',
+        label: 'Radio',
+    },
+];
+
+function getModalStyle() {
+    return {
+      top: `50px`,
+    };
+}
+
+
 
 
 class CueSheet extends Component{
     
     state = {
-        search: '',
         cueSheet: [],
         goToCueSheet: false,
         goToCueId: 0,
-        email: JSON.parse(localStorage.getItem('okta-token-storage')).idToken.claims.email,
-        data: []
+        userEmail: JSON.parse(localStorage.getItem('okta-token-storage')).idToken.claims.email,
+        data: [],
+        open: false,
+        id: 0,
+        productionTitle: "",
+        productionYear: 0,
+        type: "Movie",
+        productionDuration: 0,
+        musicDuration: 0,
+        nextPage: false,
+        missingInfo: false,
     }
+
+    handleOpen = () => {
+        this.setState({ open: true });
+    };
+
+    handleClose = () => {
+    this.setState({ open: false });
+    };
+
+    handleFormSubmit = event => {
+        event.preventDefault();
+        if(!Object.values(this.state).includes("")){
+            API.saveCueSheet(this.state)
+                .then(result => {
+                    this.setState({ id: result.data.id , nextPage: true })
+                })
+        }else{
+            this.setState({missingInfo: true})
+        }
+    };
  
     componentDidMount(){
         this.loadCueSheet();
-        this.getDownloadInfo(this.state.email);
+        this.getDownloadInfo(this.state.userEmail);
     }
 
     loadCueSheet = () => {
-        API.getCues(this.state.email)
+        API.getCues(this.state.userEmail)
             .then(result => {
                 this.setState({cueSheet: result.data}, () => {
                 })
@@ -41,13 +133,12 @@ class CueSheet extends Component{
 
     goToCue = id =>{
         // console.log(id)
-        this.setState({goToCueId: id})
-        this.setState({goToCueSheet: true})
+        this.setState({goToCueId: id, goToCueSheet: true})
     }
+
     getDownloadInfo = id => {
         API.getAllInfo(id)
             .then(result => {
-                console.log(result.data)
                 var data = [];
                 for(var i = 0; i < result.data.length; i++){
                     if(result.data[i].song.shareholders.length){
@@ -104,76 +195,110 @@ class CueSheet extends Component{
         }
     }    
 
+    deleteCue = (id) =>{
+        API.deleteCueSheet(id)
+            .then(result => {
+                this.componentDidMount()
+            })
+    }
+
     render(){
+        
+        const { classes } = this.props;
+
         if(this.state.goToCueSheet === true){
             return <Redirect to={`/cuesheet/${this.state.goToCueId}`}/>
+        }else if(this.state.nextPage === true){
+            return <Redirect to={`/cuesheet/${this.state.id}`}/>
         }
 
         return(
             <Router>
                 <div className="container">
-                    <button className="btn btn-secondary float-right">
-                        <a href="/newHeader" className="newHeaderBtn">
-                            <h6>Create Cue Sheets</h6>
-                        </a>
-                        <Route exact path="/newHeader" component={NewHeader}/>
-                    </button>
+                    <Button background-color="primary" onClick={this.handleOpen} className={classes.createBtn}>Create Cue Sheet</Button>
                     <h3>Search Cue</h3>
-                    {/* <form>
-                        <Input
-                            value={this.state.search}
-                            onChange={this.handleInputChange}
-                            name="search"
-                            placeholder="search"
-                        />
-                        <Input
-                            value={this.state.search}
-                            onChange={this.handleInputChange}
-                            name="search"
-                            placeholder="search"
-                        />
-                        <FormBtn
-                            onClick={this.handleFormSubmit}    
-                        >
-                            SUBMIT
-                        </FormBtn>
-
-                    </form> */}
-                
-                    <table className="table">
-                        <thead className="thead-dark">
-                            <tr>
-                                <th scope="col">Production Title</th>
-                                <th scope="col">Type</th>
-                                <th scope="col">Production Duration</th>
-                                <th scope="col">Music Duration</th>
-                                <th scope="col">Edit Cue</th>
-                                <th scope="col">Download CSV</th>
-                            </tr>
-                        </thead>
-                        <tbody className="cueInfo">
-                            {/* Cue info */}
-                            {this.state.cueSheet.map(cues => {
-                                return(
-                                    <Row 
-                                        key={cues.id}
-                                        productionId={cues.id}
-                                        productionTitle={cues.productionTitle}
-                                        type={cues.type}
-                                        productionDuration={cues.productionDuration}
-                                        musicDuration={cues.musicDuration}
-                                        goToCue={this.goToCue}
-                                        downloadFile={this.downloadCSVFile}
-                                    />
-                                )
-                            })}
-                            
-                        </tbody>
-                    </table>
+                    <CueTable
+                        cueSheet={this.state.cueSheet}
+                        goToCue={this.goToCue}
+                        downloadFile={this.downloadCSVFile}
+                        deleteCue={this.deleteCue}
+                    />
+                    <Modal
+                        style={getModalStyle()}
+                        aria-labelledby="simple-modal-title"
+                        aria-describedby="simple-modal-description"
+                        open={this.state.open}
+                        onClose={this.handleClose}
+                    >
+                        <form className={classes.paper} noValidate autoComplete="off">  
+                            <Typography variant="h6" id="modal-title">
+                                New Cue Sheet
+                            </Typography> 
+                            <TextField
+                                onChange={this.handleInputChange}
+                                name="productionTitle"
+                                placeholder="Production Title"
+                                className={classes.textField}
+                                margin="normal"
+                            />
+                            <TextField
+                                onChange={this.handleInputChange}
+                                name="productionYear"
+                                placeholder="Production Year"
+                                className={classes.textField}
+                                margin="normal"
+                            />
+                            <TextField
+                                name="type"
+                                select
+                                className={classes.textField}
+                                value={this.state.type}
+                                onChange={this.handleInputChange}
+                                SelectProps={{
+                                    native: true,
+                                    MenuProps: {
+                                    className: classes.menu,
+                                    },
+                                }}
+                                margin="normal"
+                                >
+                                {type.map(option => (
+                                    <option key={option.value} value={option.value}>
+                                    {option.label}
+                                    </option>
+                                ))}
+                            </TextField>
+                            <TextField
+                                onChange={this.handleInputChange}
+                                name="productionDuration"
+                                placeholder="Production Duration"
+                                margin="normal"
+                                className={classes.textField}
+                            />
+                            <Button
+                                color="primary"
+                                className={classes.button}
+                                onClick={this.handleFormSubmit}   
+                            >
+                                    Submit
+                            </Button>
+                            {this.state.missingInfo ? (
+                                <h4>Missing Infomation</h4>
+                            ) : (
+                                <p></p>
+                            )}
+                        </form>
+                    </Modal>
                 </div>
+
+                
             </Router>
         )
     }
 }
 
-export default CueSheet
+CueSheet.propTypes = {
+    classes: PropTypes.object.isRequired,
+};
+
+export default withStyles(styles)(CueSheet);
