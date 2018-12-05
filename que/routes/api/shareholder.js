@@ -7,7 +7,7 @@ router.route('/add')
 router.route('/delete')
     .post(shareholderController.delete)
 
-router.route('/get/:email')
+router.route('/get/')
     .get(shareholderController.getInfo)
 
     module.exports = router

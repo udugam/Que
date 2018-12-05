@@ -165,12 +165,12 @@ class CueTable extends React.Component {
 }
 
   getSongInfo(){
-    // API.getSongs(this.state.email)
-    //   .then(data => {
-    //       this.setState({ shareholders: data.data[0], rows : data.data[1]}, () => {
-    //           this.shareInfo()
-    //       })
-    //   })
+    API.getSongs()
+      .then(data => {
+          this.setState({ shareholders: data.data[0], rows : data.data[1]}, () => {
+              this.shareInfo()
+          })
+      })
   }
 
   shareInfo(){
@@ -232,12 +232,12 @@ class CueTable extends React.Component {
                 return (
                   <ExpansionPanel className={classes.row} key={row.id} >
                     <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                      <div className={classes.column}>
-                        <Typography className={classes.heading}>{row.songTitle}</Typography>
-                      </div>
-                      <div className={classes.column}>
-                        <Typography className={classes.secondaryHeading}>{row.artists}</Typography>
-                      </div>                 
+                      <tr className={classes.column}>
+                        <td className={classes.heading}>{row.songTitle}</td>
+                      </tr>
+                      <tr className={classes.column}>
+                        <td className={classes.secondaryHeading}>{row.artists}</td>
+                      </tr>                 
                     </ExpansionPanelSummary>
                     <ExpansionPanelDetails>
                       <Table className={classes.table}>
