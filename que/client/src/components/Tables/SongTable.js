@@ -165,12 +165,12 @@ class CueTable extends React.Component {
 }
 
   getSongInfo(){
-    // API.getSongs(this.state.email)
-    //   .then(data => {
-    //       this.setState({ shareholders: data.data[0], rows : data.data[1]}, () => {
-    //           this.shareInfo()
-    //       })
-    //   })
+    API.getSongs(this.state.email)
+      .then(data => {
+          this.setState({ shareholders: data.data[0], rows : data.data[1]}, () => {
+              this.shareInfo()
+          })
+      })
   }
 
   shareInfo(){
