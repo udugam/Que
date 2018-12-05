@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import { Modal, Button, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
+import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
+import { Button } from '@material-ui/core'
 
     class ModalNb extends Component {
         constructor(props) {
@@ -19,7 +20,7 @@ import { Modal, Button, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
                                     {this.props.children}
                                 </ModalBody>
                                 <ModalFooter>
-                                    <Button color="primary" onClick={() => { this.props.handleSubmit() }}> {this.props.actionButton} </Button>{' '}
+                                    <Button disabled={this.props.disabled} color="primary" onClick={() => { this.props.handleSubmit() }}> {this.props.actionButton} </Button>{' '}
                                     <Button color="secondary" onClick={() => { this.props.toggle(this.props.modalStateName) }}> {this.props.cancelButton} </Button>
                                 </ModalFooter>
                             </Modal>

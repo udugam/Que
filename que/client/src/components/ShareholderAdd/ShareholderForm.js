@@ -14,16 +14,25 @@ class ShareholderForm extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            shareholderName:"",
+            affiliation:"",
+            ipiNumber:"",
+            sharePercent:"",
+            role:""
             
         };
     };
-    // toggle =()=>{
 
-    // }
+    handleChange = name => event => {
+        this.props.handleShareholderAdd(name, event.target.value)
+        this.setState({
+            [name]: event.target.value,
+        });
+    };
       
  
     render() {
-        const {shareholderValue, handleChange, affiliationValue, ipiValue, shareValue, role} = this.props
+        const {shareholderName, affiliation, ipiNumber, sharePercent, role, handleChange} = this.props
         return (
             <div>
 
@@ -40,8 +49,8 @@ class ShareholderForm extends Component {
                                 id="shareholderName"
                                 required
                                 label="Shareholder Name"
-                                value={shareholderValue}
-                                onChange={handleChange}
+                                value={shareholderName}
+                                onChange={this.handleChange('shareholderName')}
                                 margin="normal"
                                 fullWidth
                                 // variant="outlined"
@@ -52,6 +61,7 @@ class ShareholderForm extends Component {
                                 id="role"
                                 name="role"
                                 label="Role"
+                                required
                                 select
                                 onChange={handleChange}
                                 margin="normal"
@@ -67,51 +77,36 @@ class ShareholderForm extends Component {
                                 <TextField
                                 required
                                 label="Affiliation"
-                                value={affiliationValue}
+                                value={affiliation}
                                 onChange={handleChange}
                                 margin="normal"
                                 fullWidth
                                 name="affiliation" 
                                 id="affiliation"
-                                // variant="outlined"
                                 />
                                       <br/>
                                 <TextField
                                 label="IPI Number (optional)"
-                                value={ipiValue}
+                                value={ipiNumber}
                                 onChange={handleChange}
                                 margin="normal"
                                 fullWidth
                                 name="ipiNumber" 
                                 id="ipiNumber"
-                                // variant="outlined"
                                 />
                                       <br/>
                                 <TextField
                                 required
                                 label="Share Percent"
-                                value={shareValue}
+                                value={sharePercent}
                                 onChange={handleChange}
                                 margin="normal"
                                 type="number"
                                 fullWidth
                                 name="sharePercent" 
                                 id="sharePercent"
-                                // variant="outlined"
                                 />
 
-                              
-                                {/* <FormGroup>
-                                    <Label for="exampleSelect">Role</Label>
-                                    <Input onChange={this.props.handleChange}  type="select" name="role" id="role">
-                                        <option value="default" > Select One</option>
-                                        <option value="Author">Author</option>
-                                        <option value="Composer">Composer</option>
-                                        <option value="Composer/Author">Composer/Author</option>
-                                        <option value="Publisher">Publisher</option>
-                                        <option value="Sub-Publisher">Sub-Publisher</option>
-                                    </Input>
-                                </FormGroup> */}
                               
                               
                             </Form>
