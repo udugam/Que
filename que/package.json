@@ -31,7 +31,6 @@
     "nodemailer": "^4.6.8",
     "python-shell": "^1.0.6",
     "react-csv-creator": "^1.1.0",
-    "react-ions": "^5.1.28",
     "sec": "^1.0.0",
     "sequelize": "^4.41.0"
   }

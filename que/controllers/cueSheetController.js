@@ -8,6 +8,7 @@ module.exports = {
             }
         })
             .then(function(cueSheets){
+                console.log('+++++++++++++++++++++++++++++++++++++++++++++++++++++++')
                 res.json(cueSheets)  
             })
     },
