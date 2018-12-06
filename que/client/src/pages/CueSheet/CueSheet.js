@@ -42,6 +42,9 @@ const styles = theme => ({
         padding: theme.spacing.unit * 4,
         margin: 'auto'
       },
+    title: {
+        marginTop: '20px',
+    }
   });
   const type = [
     {
@@ -216,7 +219,7 @@ class CueSheet extends Component{
             <Router>
                 <div className="container">
                     <Button background-color="primary" onClick={this.handleOpen} className={classes.createBtn}>Create Cue Sheet</Button>
-                    <h3>Search Cue</h3>
+                    <h3 className={classes.title}>Search Cue</h3>
                     <CueTable
                         cueSheet={this.state.cueSheet}
                         goToCue={this.goToCue}
