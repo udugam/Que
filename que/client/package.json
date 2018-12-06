@@ -2,7 +2,7 @@
   "name": "que",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://142.93.159.65:3001/",
+  "proxy": "http://localhost:3001/",
   "dependencies": {
     "@material-ui/core": "^3.5.1",
     "@material-ui/icons": "^3.0.1",
@@ -16,6 +16,7 @@
     "react-dom": "^16.5.2",
     "react-router-dom": "^4.3.1",
     "react-scripts": "2.0.5",
+    "react-video-cover": "^1.2.0",
     "reactstrap": "^6.5.0"
   },
   "scripts": {

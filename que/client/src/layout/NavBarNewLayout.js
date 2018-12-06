@@ -119,7 +119,7 @@ class MenuAppBar extends React.Component {
                        
                         <Link className="navbar-brand" to="/">
                         <Typography variant="h6" color="inherit" className={classes.grow}>
-                            Cue App
+                            Que
                         </Typography>
                         </Link>
                         {/* figure out how to float right */}
@@ -127,9 +127,8 @@ class MenuAppBar extends React.Component {
                             Cue App
                         </Typography> */}
 
-                        <Button color="inherit">Home</Button>
                         <Link to="/cuesheet">
-                            <Button color="inherit">Cue Sheet</Button>
+                            <Button color="inherit">Cue Sheets</Button>
                         </Link>
                         <Link to="/songLibrary">
                             <Button color="inherit">Song Library</Button>
