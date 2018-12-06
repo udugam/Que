@@ -35,5 +35,9 @@ export default {
     },
     getSongs: function(email){
         return axios.get("/api/shareholder/get/" + email)
+    },
+    deleteCueSheet: function(id){
+        console.log(id, "-------------")
+        return axios.post("/api/cueSheet/delete/" + id)
     }
 }

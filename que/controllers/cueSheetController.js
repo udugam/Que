@@ -71,5 +71,15 @@ module.exports = {
                 console.log(err)
                 res.status(422).json(err)
             })
+    },
+    delete: function(req, res) {
+        console.log(req.params.id, "==============================*******")
+        db.cueSheet.destroy({
+            where: {
+                id: req.params.id
+            }
+        }).then(result => {
+            res.json(result)
+        })
     }
 }

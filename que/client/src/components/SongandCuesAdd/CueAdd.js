@@ -21,65 +21,77 @@ class CueAdd extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            usage: '',
+            duration: ''
 
         };
     };
+    handleChange = name => event => {
+        // console.log("name: ", name)
+        // console.log("event: ", event.target.value)
+        this.props.handleCueAdd(name, event.target.value)
+        this.setState({
+            [name]: event.target.value,
+        });
+    };
 
     render() {
-        const { usageValue, handleChange,durationValue } = this.props
+        const { usage, cueDuration } = this.props
         return (
-        
+
             <Fragment>
                 <TextField
                     required
-                    name="usage" 
+                    // name="usage" 
                     id="usage"
                     label="Usage"
                     select
-                    onChange={handleChange}
+                    onChange={this.handleChange('usage')}
                     margin="normal"
                     fullWidth
                     helperText="Please select a usage"
-                    value={usageValue}
+                    value={usage}
+                // value={this.state.usage}
                 // variant="outlined"
                 > {usages.map(usage => (
                     <MenuItem key={usage} value={usage}>{usage} </MenuItem>
                 ))}
                 </TextField>
                 <br />
-                    {/* only support seconds for now - change to hrs and mins */}
+                {/* only support seconds for now - change to hrs and mins */}
                 <TextField
                     type="number"
-                    name="duration"
-                    id="duration"
+                    // name="duration"
+                    id="cueduration"
                     required
                     label="Duration"
-                    value={durationValue}
-                    onChange={handleChange}
+                    value={cueDuration}
+                    // value={this.state.duration}
+                    onChange={this.handleChange('cueDuration')}
                     margin="normal"
                     fullWidth
                 // variant="outlined"
                 />
             </Fragment>
-                /* <FormGroup>
-                    <Label for="exampleSelect">Usage</Label>
-                    <Input defaultValue={this.props.usageValue} onChange={this.props.handleChange} type="select" name="usage" id="usage">
-                        <option value="default" > Select One</option>
-                        <option value="Background Instrumental">Background Instrumental</option>
-                        <option value="Background Vocal">Background Vocal</option>
-                        <option value="Feature Instrumental">Feature Instrumental</option>
-                        <option value="Feature Vocal">Feature Vocal</option>
-                        <option value="Theme">Theme</option>
-                        <option value="Logo">Logo</option>
+            /* <FormGroup>
+                <Label for="exampleSelect">Usage</Label>
+                <Input defaultValue={this.props.usageValue} onChange={this.props.handleChange} type="select" name="usage" id="usage">
+                    <option value="default" > Select One</option>
+                    <option value="Background Instrumental">Background Instrumental</option>
+                    <option value="Background Vocal">Background Vocal</option>
+                    <option value="Feature Instrumental">Feature Instrumental</option>
+                    <option value="Feature Vocal">Feature Vocal</option>
+                    <option value="Theme">Theme</option>
+                    <option value="Logo">Logo</option>
 
-                    </Input>
-                </FormGroup>
-                <FormGroup>
-                
-                    <Label check> Duration  </Label>
-                    <Input defaultValue={this.props.durationValue} onChange={this.props.handleChange} type="number" name="duration" />{' '}
-                </FormGroup> */
-           
+                </Input>
+            </FormGroup>
+            <FormGroup>
+            
+                <Label check> Duration  </Label>
+                <Input defaultValue={this.props.durationValue} onChange={this.props.handleChange} type="number" name="duration" />{' '}
+            </FormGroup> */
+
         )
     }
 }

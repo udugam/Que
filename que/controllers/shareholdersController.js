@@ -69,7 +69,8 @@ module.exports = {
         })
     },
     getInfo: function(req, res){
-        console.log(req.params.email)
+        console.log()
+        console.log("=============================================")
         db.shareholderSongs.findAll({
             include: [{
                 all: true,

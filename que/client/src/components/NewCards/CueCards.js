@@ -5,12 +5,8 @@ import {
     Grid,
     Paper,
     Typography,
-    // ListItemSecondaryAction,
-    // IconButton,
     Card,
-    // CardHeader,
     CardContent,
-    // Menu,
     MenuItem,
     Icon,
     Button,
@@ -19,7 +15,6 @@ import {
     ClickAwayListener,
     MenuList
 } from "@material-ui/core";
-import MoreVertIcon from '@material-ui/icons';
 import { withStyles } from '@material-ui/core/styles';
 
 const styles = theme => ({
@@ -44,8 +39,8 @@ const styles = theme => ({
     },
     modifyButton: {
         position: 'absolute',
-        right: '10px',
-        bottom: '10px'
+        right: '1px',
+        top: '10px'
     }
 });
 
@@ -150,10 +145,7 @@ class CueCards extends Component {
                                     > <span style={{ color: '#757575' }}> Usage:  </span>
                                         {this.props.usage}</Typography>
 
-                                    <Typography
-                                        variant='body1'
-                                    > <span style={{ color: '#757575' }}> Music Duration:  </span>
-                                        {this.props.musicDuration} </Typography>
+                                  
 
                                 </CardContent>
 

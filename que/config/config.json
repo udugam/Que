@@ -3,7 +3,7 @@
       "username": "root",
       "password": "",
       "database": "cue_db",
-      "host": "localhost",
+      "host": "localhost", 
       "dialect": "mysql"
     },
     "production": {
