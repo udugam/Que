@@ -33,8 +33,8 @@ export default {
     editCue: function(cueData){
         return axios.post("/api/cues/edit", cueData)
     },
-    getSongs: function(email){
-        return axios.get("/api/shareholder/get/" + email)
+    getSongs: function(){
+        return axios.get("/api/shareholder/get/")
     },
     deleteCueSheet: function(id){
         console.log(id, "-------------")
