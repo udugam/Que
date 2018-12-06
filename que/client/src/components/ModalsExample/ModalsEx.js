@@ -36,7 +36,7 @@ class ModalEx extends Component {
                         {this.props.children}
                     </ModalBody>
                     <ModalFooter>
-                        <Button color="primary" onClick={() => { this.props.handleSubmit() }}> {this.props.actionButton} </Button>{' '}
+                        <Button disabled={this.props.disabled} color="primary" onClick={() => { this.props.handleSubmit() }}> {this.props.actionButton} </Button>{' '}
                         <Button color="secondary" onClick={() => { this.props.toggle(this.props.modalStateName) }}> {this.props.cancelButton} </Button>
                     </ModalFooter>
                 </Modal>

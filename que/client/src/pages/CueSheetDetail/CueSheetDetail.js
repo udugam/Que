@@ -16,18 +16,13 @@ import ModalNb from "../../components/ModalsExample/ModalNb"
 // import Button from '@material-ui/core/Button';
 // import { PrimaryButton, SecondaryButton } from '../../components/ButtonsAndIcons'
 import {
-    ButtonBase,
     Grid,
-    // Paper,
-    Typography,
-    // ListItemSecondaryAction,
-    // IconButton, 
-    // Card,
-    // CardHeader,
-    // CardContent
+    Paper,
+    Typography
 } from "@material-ui/core";
 import { withStyles } from '@material-ui/core/styles';
 import ShareholdersTable from '../../components/Tables/ShareholderTable'
+// import { stringify } from 'querystring';
 
 const styles = theme => ({
     root: {
@@ -37,7 +32,7 @@ const styles = theme => ({
         padding: theme.spacing.unit * 2,
         // textAlign: 'center',
         color: theme.palette.text.secondary,
-        marginTop: 40
+        // marginTop: 40
     },
     card:{
         // padding: theme.spacing.unit * 2,
@@ -87,10 +82,10 @@ class NewCue extends Component {
             addCueModal: false,
             deleteCueModal: false,
             editCueModal: false,
-            songTitleValue: "",
-            artistNameValue: "",
-            usageValue: "",
-            durationValue: ""
+            songTitle: "",
+            artistName: "",
+            usage:"",
+            cueDuration:""
 
         };
         this.theTextInput = React.createRef();
@@ -103,8 +98,18 @@ class NewCue extends Component {
             [modalParam]: !this.state[modalParam]
             // modal: !this.state.modal
         });
-        // console.log(this.state[modalParam])
+       this.clearFormStates()
     };
+
+    clearFormStates=()=>{
+        this.setState({
+            usage:"",
+            cueDuration:"",
+            songTitle:"",
+            artistName:"",
+            role:""
+        })
+    }
     confirmModalToggle = () => {
         this.setState({
             confirmModal: !this.state.confirmModal
@@ -128,6 +133,10 @@ class NewCue extends Component {
                     sharePercent: "",
                     affiliation: "",
                     cueId: "",
+                    usage:"",
+                    cueDuration:"",
+                    songTitle:"",
+                    artistName:""
                 });
 
             })
@@ -150,16 +159,19 @@ class NewCue extends Component {
     }
 
     editCue = (props) => {
-
-        console.log("songId: ", props.songId)
+        const {cueId, songId, title, duration,usage,artists} = props
+        console.log(`songId: ${props.songId}
+        artist name: ${props.artists}
+        duration: ${props.duration}`)
         this.modalToggle("editCueModal")
         this.setState({
-            cueId: props.cueId,
-            artistNameValue: props.artists,
-            usageValue: props.usage,
-            durationValue: props.duration,
-            songTitleValue: props.title,
-            songId: props.songId
+            // optimize this code later - too repetitive 
+            cueId: cueId==null?"":cueId, //if the props.cueiD(been destructured above) is null state will be set to an empty string otherwise it will be set the the cue.id
+            artistName: artists==null?"":artists,
+            usage: usage==null?"":usage ,
+            cueDuration: duration==null?"":duration,
+            songTitle: title==null?"":title,
+            songId: songId==null?"":songId
         })
 
     }
@@ -186,10 +198,16 @@ class NewCue extends Component {
 
     }
 
+    handleFormState =(name, targetValue)=>{
+        this.setState({
+            [name]:targetValue
+        })
+    }
+
     handleInputChange = event => {
         const { name, value } = event.target;
-        console.log("event value: ", event.target.value)
-        console.log("name: ", event.target.name)
+        // console.log("event value: ", event.target.value)
+        // console.log("name: ", event.target.name)
 
         this.setState({
             [name]: value
@@ -204,9 +222,9 @@ class NewCue extends Component {
     handleCueAdd = () => {
         let data = {
             songTitle: this.state.songTitle,
-            artists: this.state.performingArtist,
+            artists: this.state.artistName,
             usage: this.state.usage,
-            duration: this.state.duration,
+            duration: this.state.cueDuration,
             cueSheetId: this.props.match.params.id
         }
         // console.log(data)
@@ -222,8 +240,7 @@ class NewCue extends Component {
     }
 
     handleAddShareholder = () => {
-
-        API.addShareholder({
+        let data ={
             shareholderName: this.state.shareholderName,
             affiliation: this.state.affiliation,
             ipiNumber: this.state.ipiNumber,
@@ -231,8 +248,10 @@ class NewCue extends Component {
             share: this.state.sharePercent,
             cueId: this.state.cueId,
             songId: this.state.songId
+        }
+        // console.log(data)
 
-        })
+        API.addShareholder(data)
             .then(res => {
                 console.log(res)
                 this.getCueSheet()
@@ -276,9 +295,9 @@ class NewCue extends Component {
     handleEditCue = () => {
         let data = {
             songTitle: this.state.songTitle,
-            artists: this.state.performingArtist,
+            artists: this.state.artistName,
             usage: this.state.usage,
-            duration: this.state.duration,
+            duration: this.state.cueDuration,
             cueSheetId: this.props.match.params.id,
             cueId: this.state.cueId,
             songId: this.state.songId
@@ -346,14 +365,13 @@ class NewCue extends Component {
                     productionYear={this.state.cueSheet.productionYear}
                     productionDuration={this.state.cueSheet.productionDuration}
                     musicDuration={this.state.cueSheet.musicDuration} >
-                    <FileUpload getCuesCallBack={this.getCueSheet} cueSheetId={this.state.cueSheet.id}/>
 
                    
                     </ProductionCard>
                     <Container>
                         <Grid container className={classes.section}>
                             <Grid item >
-                            <Typography variant="h5">Cue Information</Typography>
+                            <Typography variant="h4">Cue Information</Typography>
                             <Typography variant="subtitle1">
                             Add all music/cues used in this production and shareholder information.
                             </Typography>
@@ -361,12 +379,6 @@ class NewCue extends Component {
                             You can either upload the final production or add cues manually. 
                             Uploading your audio file will automatically generate the cue information
                             </Typography>
-                            </Grid>
-                         
-                            <Grid item xs={12} sm={6} className={classes.section}>
-                             Audio File upload placeholder
-                            </Grid>
-                            <Grid item xs={12} sm={6} className={classes.section}>
                             <ModalEx
                             dataId={this.props.match.params.id}
                             buttonName={"Add new Cue"}
@@ -374,21 +386,41 @@ class NewCue extends Component {
                             modal={this.state.addCueModal}
                             modalStateName={"addCueModal"}
                             actionButton={"Submit"}
+                            disabled={!this.state.songTitle ||!this.state.usage || !this.state.cueDuration }
                             cancelButton={"Cancel"}
                             handleSubmit={this.handleCueAdd}
                             modalHeader={"Add a New Cue"}
                             buttonColor={"primary"}
                             variant={'extendedFab'}
                             style={{padding:'10px'}}
-                            usageValue={this.state.usage}>
+                            >
                             <form>
-                                <SongsAdd handleChange={this.handleInputChange} />
-                                <CueAdd handleChange={this.handleInputChange} />
+                                <SongsAdd handleSongAdd={this.handleFormState} 
+                                artistName={this.state.artistName}
+                                songTitle={this.state.songTitle} />
+                                <CueAdd  
+                                handleCueAdd={this.handleFormState}
+                                cueDuration={this.state.cueDuration}
+                                usage={this.state.usage}
+                                    />
                             </form>
 
 
                         </ModalEx>
+                            
                             </Grid>
+                         
+                            <Grid item xs={12}  className={classes.section}>
+                            <Paper className={classes.paper}>
+                                <Typography variant='h6'>Audio File upload  </Typography>
+                                <FileUpload getCuesCallBack={this.getCueSheet} cueSheetId={this.state.cueSheet.id}/>
+                            
+                            </Paper>
+                             
+                            </Grid>
+                            {/* <Grid item xs={12} sm={6} className={classes.section}>
+                         
+                            </Grid> */}
                         </Grid>
                    
                     </Container>
@@ -440,18 +472,19 @@ class NewCue extends Component {
                             cancelButton={"Cancel"}
                             handleSubmit={this.handleEditCue}
                             modalHeader={"Edit Cue"}
-                            buttonColor={"primary"}>
+                            buttonColor={"primary"}
+                            disabled={!this.state.songTitle ||!this.state.usage || !this.state.cueDuration }>
 
                           <form>
                                 <SongsAdd 
-                                handleChange={this.handleInputChange}
-                                artistNameValue={this.state.artistNameValue} 
-                                songTitleValue={this.state.songTitleValue}
+                                handleSongAdd={this.handleFormState}
+                                artistName={this.state.artistName} 
+                                songTitle={this.state.songTitle}
                                 />
                                 <CueAdd 
-                                handleChange={this.handleInputChange}
-                                durationValue={this.state.durationValue} 
-                                usageValue={this.state.usageValue}/>
+                                   handleCueAdd={this.handleFormState}
+                                   cueDuration={this.state.cueDuration}
+                                   usage={this.state.usage}/>
                             </form>                  
   
                         </ModalNb>
@@ -480,9 +513,12 @@ class NewCue extends Component {
                             modalHeader={"Add a shareholder"}
                             buttonColor={"primary"}
                             variant={'outlined'}
-                            style={{padding:'20px'}}>
+                            style={{padding:'20px'}}
+                            disabled={!this.state.shareholderName ||!this.state.affiliation || !this.state.role || !this.state.sharePercent }>
                             <ShareholderForm
                                 handleChange={this.handleInputChange}
+                                handleShareholderAdd={this.handleFormState}
+                                role={this.state.role}
                             ></ShareholderForm>
                         </ModalEx>
     

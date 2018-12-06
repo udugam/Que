@@ -33,7 +33,7 @@ const styles = theme => ({
        // color:'#FAFAFA'
     },
     title:{
-        color: 'white'
+        color: theme.palette.primary.contrastText
     }
 });
 
@@ -64,7 +64,10 @@ class ProductionCard extends Component {
                                     
                                     <CardHeader 
                                     className={classes.cardHeader}
-                                    title={this.props.productionTitle}>
+                                    title={this.props.productionTitle}
+                                    classes={{
+                                        title:classes.title
+                                    }}>
                                     
                                     </CardHeader>
                                     
